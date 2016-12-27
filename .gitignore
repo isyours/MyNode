@@ -105,10 +105,4 @@ jspm_packages
 .idea/modules.xml
 .idea/runConfigurations/
 MyNode.iml
-app/actions/
-app/components/
-app/stores/
 bower_components/
-public/font/
-public/img/
-public/js/
