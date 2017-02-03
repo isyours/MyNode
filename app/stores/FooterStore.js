@@ -7,11 +7,11 @@ import FooterActions from '../actions/FooterActions';
 class FooterStore {
     constructor() {
         this.bindActions(FooterActions);
-        this.characters = [];
+        this.blogList = [];
     }
 
     onGetTopCharactersSuccess(data) {
-        this.characters = data.slice(0, 5);
+        this.blogList = data.slice(0, 5);
     }
 
     onGetTopCharactersFail(jqXhr) {

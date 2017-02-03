@@ -15,7 +15,7 @@ class Footer extends React.Component {
 
     componentDidMount() {
         FooterStore.listen(this.onChange);
-        FooterActions.getTopCharacters();
+        FooterActions.getBlogList();
     }
 
     componentWillUnmount() {
@@ -27,19 +27,17 @@ class Footer extends React.Component {
     }
 
     render() {
-        let leaderboardCharacters;
-        if (this.state.characters && this.state.characters.length > 0) {
-            leaderboardCharacters = this.state.characters.map((character) => {
+        let blogListContent;
+        if (this.state.blogList && this.state.blogList.length > 0) {
+            blogListContent = this.state.blogList.map((blog) => {
                 return (
-                    <li key={character.characterId}>
-                        <Link to={'/characters/' + character.characterId}>
-                            <img className='thumb-md' src={'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg'} />
-                        </Link>
+                    <li key={blog.blogId}>
+                        {blog.blogName}
                     </li>
                 )
             });
         } else {
-            leaderboardCharacters = (<li>无内容展示</li>);
+            blogListContent = (<li>无内容展示</li>);
         }
 
         return (
@@ -55,7 +53,7 @@ class Footer extends React.Component {
                         <div className='col-sm-7 hidden-xs'>
                             <h3 className='lead'><strong>Leaderboard</strong> Top 5 Characters</h3>
                             <ul className='list-inline'>
-                                {leaderboardCharacters}
+                                {blogListContent}
                             </ul>
                         </div>
                     </div>

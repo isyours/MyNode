@@ -10,11 +10,21 @@ var React = require('react');
 var Router = require('react-router');
 var routes = require('./app/routes');
 
+var mongoose = require('mongoose');
+var config = require('./config');
+
+var Blog = require('./models/blog');
+
 process.evn = require('init-env')({
     logToConsole: true,
     jsonPath: 'config.envVars',
     filePath: './config/.env.json',
     overwrite: true
+});
+
+mongoose.connect(config.database);
+mongoose.connection.on('error', function() {
+    console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
 });
 
 var app = express();
@@ -25,9 +35,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/api/characters', function(req, res, next) {
-    let characters = [{'characterId': 11}, {'characterId': 13}];
-    return res.send(characters);
+app.get('/api/blog', function(req, res, next) {
+    Blog.find({}).limit(2).exec(function (err, blogList) {
+        console.info('Get Blog list, Error info', err);
+        if (err) return next(err);
+        console.info('Get Blog list, Result info', blogList);
+        return res.send(blogList);
+    });
 });
 
 app.use(function(req, res) {
