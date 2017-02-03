@@ -25,6 +25,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/api/characters', function(req, res, next) {
+    let characters = [{'characterId': 11}, {'characterId': 13}];
+    return res.send(characters);
+});
+
 app.use(function(req, res) {
     Router.run(routes, req.path, function(Handler) {
         var html = React.renderToString(React.createElement(Handler));

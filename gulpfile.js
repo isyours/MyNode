@@ -4,7 +4,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var gulpif = require('gulp-if');
-var streamify = require('gulp-streamify');
 var autoprefixer = require('gulp-autoprefixer');
 var cssmin = require('gulp-cssmin');
 var less = require('gulp-less');
@@ -51,7 +50,7 @@ gulp.task('browserify-vendor', function() {
         .require(dependencies)
         .bundle()
         .pipe(source('vendor.bundle.js'))
-        .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
+        .pipe(gulpif(production, uglify({ mangle: false })))
         .pipe(gulp.dest('public/js'));
 });
 
@@ -66,7 +65,7 @@ gulp.task('browserify', ['browserify-vendor'], function() {
         .transform(babelify)
         .bundle()
         .pipe(source('bundle.js'))
-        .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
+        .pipe(gulpif(production, uglify({ mangle: false })))
         .pipe(gulp.dest('public/js'));
 });
 

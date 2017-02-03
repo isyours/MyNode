@@ -27,15 +27,20 @@ class Footer extends React.Component {
     }
 
     render() {
-        let leaderboardCharacters = this.state.characters.map((character) => {
-            return (
-                <li key={character.characterId}>
-                    <Link to={'/characters/' + character.characterId}>
-                        <img className='thumb-md' src={'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg'} />
-                    </Link>
-                </li>
-            )
-        });
+        let leaderboardCharacters;
+        if (this.state.characters && this.state.characters.length > 0) {
+            leaderboardCharacters = this.state.characters.map((character) => {
+                return (
+                    <li key={character.characterId}>
+                        <Link to={'/characters/' + character.characterId}>
+                            <img className='thumb-md' src={'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg'} />
+                        </Link>
+                    </li>
+                )
+            });
+        } else {
+            leaderboardCharacters = (<li>无内容展示</li>);
+        }
 
         return (
             <footer>
