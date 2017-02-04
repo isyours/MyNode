@@ -24,6 +24,7 @@ var dependencies = [
     'react-router',
     'react-tap-event-plugin',
     'material-ui',
+    'react-infinite-scroller',
     'react-addons-create-fragment',
     'react-addons-transition-group',
     'react-addons-shallow-compare',
@@ -40,7 +41,8 @@ gulp.task('vendor', function() {
         'bower_components/jquery/dist/jquery.js',
         'bower_components/bootstrap/dist/js/bootstrap.js',
         'bower_components/magnific-popup/dist/jquery.magnific-popup.js',
-        'bower_components/toastr/toastr.js'
+        'bower_components/toastr/toastr.js',
+        'bower_components/qwest/qwest.min.js'
     ]).pipe(concat('vendor.js'))
         .pipe(gulpif(production, uglify({ mangle: false })))
         .pipe(gulp.dest('public/js'));

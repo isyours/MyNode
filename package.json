@@ -23,6 +23,7 @@
     "morgan": "~1.7.0",
     "react": "^0.14.2",
     "react-dom": "^0.14.2",
+    "react-infinite-scroller": "^1.0.4",
     "react-router": "^0.13.3",
     "react-tap-event-plugin": "^1.0.0",
     "request": "^2.58.0",

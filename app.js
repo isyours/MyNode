@@ -36,7 +36,19 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/api/blog', function(req, res, next) {
-    Blog.find({}).limit(2).exec(function (err, blogList) {
+    Blog.find({}).exec(function (err, blogList) {
+        console.info('Get Blog list, Error info', err);
+        if (err) return next(err);
+        console.info('Get Blog list, Result info', blogList);
+        return res.send(blogList);
+    });
+});
+
+app.get('/api/blog/page/:pageNum', function(req, res, next) {
+    var pageNum = req.params.pageNum;
+    var pageSize = req.params.page_size;
+
+    Blog.find({}).skip(pageNum * pageSize).limit(pageSize).exec(function (err, blogList) {
         console.info('Get Blog list, Error info', err);
         if (err) return next(err);
         console.info('Get Blog list, Result info', blogList);

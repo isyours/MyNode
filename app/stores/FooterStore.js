@@ -7,16 +7,6 @@ import FooterActions from '../actions/FooterActions';
 class FooterStore {
     constructor() {
         this.bindActions(FooterActions);
-        this.blogList = [];
-    }
-
-    onGetTopCharactersSuccess(data) {
-        this.blogList = data.slice(0, 5);
-    }
-
-    onGetTopCharactersFail(jqXhr) {
-        // Handle multiple response formats, fallback to HTTP status code number.
-        toastr.error(jqXhr.responseJSON && jqXhr.responseJSON.message || jqXhr.responseText || jqXhr.statusText);
     }
 }
 
