@@ -2,16 +2,21 @@
  * Created by Administrator on 2016/12/27.
  */
 import React from 'react';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {RouteHandler} from 'react-router';
+import Navbar from './Navbar';
 import Footer from './Footer';
 
 class App extends React.Component {
     render() {
         return (
-            <div>
-                <RouteHandler />
-                <Footer />
-            </div>
+            <MuiThemeProvider>
+                <div>
+                    <Navbar />
+                    <RouteHandler />
+                    <Footer />
+                </div>
+            </MuiThemeProvider>
         );
     }
 }
