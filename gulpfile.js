@@ -20,7 +20,13 @@ var production = process.env.NODE_ENV === 'production';
 var dependencies = [
     'alt',
     'react',
+    'react-dom',
     'react-router',
+    'react-tap-event-plugin',
+    'material-ui',
+    'react-addons-create-fragment',
+    'react-addons-transition-group',
+    'react-addons-shallow-compare',
     'underscore'
 ];
 
