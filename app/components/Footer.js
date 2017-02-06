@@ -26,7 +26,7 @@ class Footer extends React.Component {
     render() {
         let yearStr = new Date().getFullYear();
         return (
-            <footer>
+            <footer style={{height: "10%", width: "100%", bottom: 0, float: "left",  position: "absolute", overflow: "hidden"}}>
                 <div className='container'>
                     <div className='row'>
                         <div className='col-sm-5'>

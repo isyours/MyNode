@@ -52,7 +52,7 @@ class Home extends React.Component {
         }
 
         return (
-            <div style={{height: '80%', overflow: 'auto'}}>
+            <div style={{height: "70%", width: "70%", marginLeft: "10%", position: "absolute", overflow: "auto"}}>
                 <InfiniteScroll
                     pageStart={0}
                     loadMore={this.loadBlog.bind(this)}

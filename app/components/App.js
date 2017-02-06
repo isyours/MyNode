@@ -11,7 +11,7 @@ class App extends React.Component {
     render() {
         return (
             <MuiThemeProvider>
-                <div>
+                <div style={{height: "100%", width: "100%", float: "left", margin: 0, position: "absolute"}}>
                     <Navbar />
                     <RouteHandler />
                     <Footer />

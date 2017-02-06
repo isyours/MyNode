@@ -1,5 +1,4 @@
 import alt from '../alt';
-import qwest from 'qwest';
 
 class HomeActions {
     constructor() {
@@ -10,22 +9,22 @@ class HomeActions {
     }
 
     getBlogList(page) {
-        qwest.get( '/api/blog/page/' + page, {
-            page_size: 10
-        }, {
-            cache: false
-        }).then(function(xhr, resp) {
-            if(resp) {
-                this.actions.getBlogListSuccess(data)
-            }
-        });
-        // $.ajax({ url: })
-        //     .done((data) => {
+        // qwest.get( '/api/blog/page/' + page, {
+        //     page_size: 10
+        // }, {
+        //     cache: false
+        // }).then(function(xhr, resp) {
+        //     if(resp) {
         //         this.actions.getBlogListSuccess(data)
-        //     })
-        //     .fail((jqXhr) => {
-        //         this.actions.getBlogListFail(jqXhr)
-        //     });
+        //     }
+        // });
+        $.ajax({url: '/api/blog/page/' + page + '?size=10'})
+            .done((response) => {
+                this.actions.getBlogListSuccess(response)
+            })
+            .fail((jqXhr) => {
+                this.actions.getBlogListFail(jqXhr)
+            });
     }
 }
 

@@ -11,8 +11,9 @@ class HomeStore {
         this.hasMoreBlog = true;
     }
 
-    onGetBlogListSuccess(data) {
-        this.blogList = data;
+    onGetBlogListSuccess(response) {
+        this.blogList = _.concat(this.blogList, response.docs);
+        this.hasMoreBlog = response.hasMore;
     }
 
     onGetBlogListFail(jqXhr) {

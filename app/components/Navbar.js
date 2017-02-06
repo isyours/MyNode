@@ -7,6 +7,7 @@ class Navbar extends React.Component {
     render() {
         return (
             <AppBar
+                style={{height: "20%"}}
                 title="Title"
                 iconClassNameRight="muidocs-icon-navigation-expand-more"
             />

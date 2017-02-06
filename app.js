@@ -45,14 +45,27 @@ app.get('/api/blog', function(req, res, next) {
 });
 
 app.get('/api/blog/page/:pageNum', function(req, res, next) {
-    var pageNum = req.params.pageNum;
-    var pageSize = req.params.page_size;
+    var pageNum = req.params.pageNum - 0;
+    var pageSize = req.query.size;
+    pageNum--;
+    console.info('Get Blog list, Page is ', pageNum);
+    console.info('Get Blog list, Page size is ', pageSize);
 
     Blog.find({}).skip(pageNum * pageSize).limit(pageSize).exec(function (err, blogList) {
         console.info('Get Blog list, Error info', err);
         if (err) return next(err);
         console.info('Get Blog list, Result info', blogList);
-        return res.send(blogList);
+        Blog.count({}).exec(function (err, number) {
+            if (err) return next(err);
+            console.info('Get Blog list, Result count is', number);
+            let hasMore = true;
+            if (number - pageNum * pageSize < pageSize) hasMore = false;
+            return res.send({
+                docs: blogList,
+                total: number,
+                hasMore: hasMore
+            });
+        });
     });
 });
 
