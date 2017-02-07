@@ -1,16 +1,29 @@
 import React from 'react';
-import {Link} from 'react-router';
 import AppBar from 'material-ui/AppBar';
 
 class Navbar extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {open: false};
+    }
+
+    handleToggle() {
+        console.log("CLICK FIRED");
+        this.setState({open: !this.state.open});
+    }
+
+    handleClose() {
+        this.setState({open: false});
+    }
 
     render() {
         return (
-            <AppBar
-                style={{height: "20%"}}
-                title="Title"
-                iconClassNameRight="muidocs-icon-navigation-expand-more"
-            />
+            <div>
+                <AppBar
+                    title="晨号隆"
+                    iconClassNameRight="muidocs-icon-navigation-expand-more"
+                />
+            </div>
         );
     }
 }

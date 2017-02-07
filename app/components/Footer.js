@@ -26,13 +26,12 @@ class Footer extends React.Component {
     render() {
         let yearStr = new Date().getFullYear();
         return (
-            <footer style={{height: "10%", width: "100%", bottom: 0, float: "left",  position: "absolute", overflow: "hidden"}}>
+            <footer>
                 <div className='container'>
                     <div className='row'>
                         <div className='col-sm-5'>
-                            <h3 className='lead'><strong>Information</strong> and <strong>Copyright</strong></h3>
-                            <p>Powered by <strong>Node.js</strong>, <strong>MongoDB</strong> and <strong>React</strong>.</p>
-                            <p>You may view the <a href='https://github.com/isyours/MyNode'>Source Code</a> behind this project on GitHub.</p>
+                            <p>Powered by <strong>Node.js</strong>, <strong>MongoDB</strong> and <strong>React</strong>.
+                                You may view the <a href='https://github.com/isyours/MyNode'>Source Code</a> behind this project on GitHub.</p>
                             <p>© {yearStr} Chlde.</p>
                         </div>
                     </div>
