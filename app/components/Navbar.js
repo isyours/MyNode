@@ -22,6 +22,7 @@ class Navbar extends React.Component {
                 <AppBar
                     title="晨号隆"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
+                    style={{boxShadow: "none"}}
                 />
             </div>
         );

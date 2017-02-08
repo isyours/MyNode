@@ -30,7 +30,9 @@ class App extends React.Component {
                         <Navbar />
                     </div>
                     <div style={{height: "80%", width: "100%", margin: 0}}>
-                        <RouteHandler />
+                        <div style={{marginLeft: "20%", height: "100%", overflow: "auto"}}>
+                            <RouteHandler />
+                        </div>
                     </div>
                     <div style={{height: "10%", width: "100%", margin: 0, overflow: "hidden"}}>
                         <Footer />

@@ -2,9 +2,10 @@
  * Created by Administrator on 2016/12/27.
  */
 import React from 'react';
-import Paper from 'material-ui/Paper';
 import HomeStore from '../stores/HomeStore'
 import HomeActions from '../actions/HomeActions';
+import { Link } from 'react-router'
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import InfiniteScroll from 'react-infinite-scroller';
 
 class Home extends React.Component {
@@ -33,18 +34,20 @@ class Home extends React.Component {
 
     render() {
         let blogListContent;
-        const itemStyle = {
-            height: 100,
-            width: '80%',
-            margin: 20,
-            textAlign: 'center'
-        };
         if (this.state.blogList && this.state.blogList instanceof Array) {
             blogListContent = this.state.blogList.map((blog) => {
                 return (
-                    <Paper style={itemStyle} zDepth={2} key={blog.blogId}>
-                        {blog.blogName}
-                    </Paper>
+                    <Link key={blog.blogId} to='blogDetail' params={{blogId: blog.blogId}}>
+                        <Card style={{width: "90%"}}>
+                            <CardTitle title={blog.blogName} subtitle={blog.blogTitle} style={{height: "30%"}} />
+                            <CardMedia style={{height: "40%"}} >
+                                <img src="http://www.material-ui.com/images/nature-600-337.jpg" />
+                            </CardMedia>
+                            <CardText style={{height: "30%"}}>
+                                {blog.blogContent}
+                            </CardText>
+                        </Card>
+                    </Link>
                 )
             });
         } else {
@@ -52,17 +55,15 @@ class Home extends React.Component {
         }
 
         return (
-            <div style={{marginLeft: "20%", height: "100%", overflow: "auto"}}>
-                <InfiniteScroll
-                    pageStart={0}
-                    loadMore={this.loadBlog.bind(this)}
-                    hasMore={this.state.hasMoreBlog}
-                    loader={<div className="loader">Loading ...</div>}
-                    useWindow={false}
-                >
-                    {blogListContent}
-                </InfiniteScroll>
-            </div>
+            <InfiniteScroll
+                pageStart={0}
+                loadMore={this.loadBlog.bind(this)}
+                hasMore={this.state.hasMoreBlog}
+                loader={<div className="loader">Loading ...</div>}
+                useWindow={false}
+            >
+                {blogListContent}
+            </InfiniteScroll>
         );
     }
 }
