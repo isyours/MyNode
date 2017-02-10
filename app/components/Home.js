@@ -8,6 +8,7 @@ import { Link } from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import InfiniteScroll from 'react-infinite-scroller';
 
+
 class Home extends React.Component {
 
     constructor(props) {
@@ -37,7 +38,8 @@ class Home extends React.Component {
         if (this.state.blogList && this.state.blogList instanceof Array) {
             blogListContent = this.state.blogList.map((blog) => {
                 return (
-                    <Link key={blog.blogId} to='blogDetail' params={{blogId: blog.blogId}}>
+                    <Link key={blog.blogId} to='blogDetail' params={{blogId: blog.blogId}}
+                          style={{textDecoration: 'none', color: 'black'}}>
                         <Card style={{width: "90%"}}>
                             <CardTitle title={blog.blogName} subtitle={blog.blogTitle} style={{height: "30%"}} />
                             <CardMedia style={{height: "40%"}} >
@@ -55,15 +57,15 @@ class Home extends React.Component {
         }
 
         return (
-            <InfiniteScroll
-                pageStart={0}
-                loadMore={this.loadBlog.bind(this)}
-                hasMore={this.state.hasMoreBlog}
-                loader={<div className="loader">Loading ...</div>}
-                useWindow={false}
-            >
-                {blogListContent}
-            </InfiniteScroll>
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={this.loadBlog.bind(this)}
+                    hasMore={this.state.hasMoreBlog}
+                    loader={<div className="loader">Loading ...</div>}
+                    useWindow={false}
+                >
+                    {blogListContent}
+                </InfiniteScroll>
         );
     }
 }

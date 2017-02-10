@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var swig  = require('swig');
 var React = require('react');
 var Router = require('react-router');
+var ReactDOMServer = require('react-dom/server');
 var routes = require('./app/routes');
 
 var mongoose = require('mongoose');
@@ -71,7 +72,8 @@ app.get('/api/blog/page/:pageNum', function(req, res, next) {
 
 app.use(function(req, res) {
     Router.run(routes, req.path, function(Handler) {
-        var html = React.renderToString(React.createElement(Handler));
+        var ComponentFactory = React.createFactory(Handler)
+        var html = ReactDOMServer.renderToString(ComponentFactory());
         var page = swig.renderFile('views/index.html', { html: html });
         res.send(page);
     });

@@ -28,7 +28,8 @@ var dependencies = [
     'react-addons-create-fragment',
     'react-addons-transition-group',
     'react-addons-shallow-compare',
-    'underscore'
+    'underscore',
+    'draft-js'
 ];
 
 /*
