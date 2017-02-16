@@ -8,6 +8,6 @@ var blogSchema = new mongoose.Schema({
     blogContent: String,
     createTime: Date,
     updateTime: Date
-}, {collection: 'blog'});
+}, {collection: 'blogs'});
 
 module.exports = mongoose.model('Blog', blogSchema);

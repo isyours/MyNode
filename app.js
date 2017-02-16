@@ -47,7 +47,7 @@ app.get('/api/blog', function(req, res, next) {
 
 app.get('/api/blog/page/:pageNum', function(req, res, next) {
     var pageNum = req.params.pageNum - 0;
-    var pageSize = req.query.size;
+    var pageSize = req.query.size - 0;
     pageNum--;
     console.info('Get Blog list, Page is ', pageNum);
     console.info('Get Blog list, Page size is ', pageSize);
