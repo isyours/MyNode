@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import {Editor, EditorState, Modifier, RichUtils} from 'draft-js';
+import {stateToHTML} from 'draft-js-export-html';
 
 class BlogEdit extends React.Component {
 
@@ -13,13 +14,17 @@ class BlogEdit extends React.Component {
         this.state = {editorState: EditorState.createEmpty()};
 
         this.focus = () => this.refs.editor.focus();
+        this.submit = () => {
+            let htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
+            console.log("====================================");
+            console.log(htmlContent);
+        };
         this.onChange = (editorState) => this.setState({editorState});
 
         this.handleKeyCommand = (command) => this._handleKeyCommand(command);
         this.onTab = (e) => this._onTab(e);
         this.toggleBlockType = (type) => this._toggleBlockType(type);
         this.toggleInlineStyle = (style) => this._toggleInlineStyle(style);
-        this.toggleColor = (toggledColor) => this._toggleColor(toggledColor);
     }
 
     _handleKeyCommand(command) {
@@ -55,46 +60,10 @@ class BlogEdit extends React.Component {
         );
     }
 
-    _toggleColor(toggledColor) {
-        const {editorState} = this.state;
-        const selection = editorState.getSelection();
-
-        // Let's just allow one color at a time. Turn off all active colors.
-        const nextContentState = Object.keys(colorStyleMap)
-            .reduce((contentState, color) => {
-                return Modifier.removeInlineStyle(contentState, selection, color)
-            }, editorState.getCurrentContent());
-
-        let nextEditorState = EditorState.push(
-            editorState,
-            nextContentState,
-            'change-inline-style'
-        );
-
-        const currentStyle = editorState.getCurrentInlineStyle();
-
-        // Unset style override for current color.
-        if (selection.isCollapsed()) {
-            nextEditorState = currentStyle.reduce((state, color) => {
-                return RichUtils.toggleInlineStyle(state, color);
-            }, nextEditorState);
-        }
-
-        // If the color is being toggled on, apply it.
-        if (!currentStyle.has(toggledColor)) {
-            nextEditorState = RichUtils.toggleInlineStyle(
-                nextEditorState,
-                toggledColor
-            );
-        }
-
-        this.onChange(nextEditorState);
-    }
-
     initEditorState() {
         this.state.editorState = EditorState.createEmpty();
     }
-    
+
     render() {
         const {editorState} = this.state;
 
@@ -120,6 +89,7 @@ class BlogEdit extends React.Component {
                         editorState={editorState}
                         onToggle={this.toggleInlineStyle}
                     />
+
                     <div className={className} onClick={this.focus}>
                         <Editor
                             blockStyleFn={getBlockStyle}
@@ -132,6 +102,9 @@ class BlogEdit extends React.Component {
                             ref="editor"
                             spellCheck={true}
                         />
+                    </div>
+                    <div>
+                        <button onClick={this.submit}>提交</button>
                     </div>
                 </div>
             </div>
