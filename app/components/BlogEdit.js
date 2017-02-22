@@ -4,6 +4,7 @@
 import React from 'react';
 import {Editor, EditorState, Modifier, RichUtils} from 'draft-js';
 import {stateToHTML} from 'draft-js-export-html';
+import BlogActions from '../actions/BlogActions';
 
 class BlogEdit extends React.Component {
 
@@ -11,13 +12,25 @@ class BlogEdit extends React.Component {
         super(props);
         this.blogId = this.props.params.blogId;
 
-        this.state = {editorState: EditorState.createEmpty()};
+        this.state = {
+            editorState: EditorState.createEmpty(),
+            blogInfo: {
+                blogId: new Date().getTime() + '',
+            }
+        };
 
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.focus = () => this.refs.editor.focus();
         this.submit = () => {
             let htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
             console.log("====================================");
             console.log(htmlContent);
+            this.state.blogInfo.blogContent = htmlContent;
+            let currentTime = new Date();
+            this.state.blogInfo.updateTime = currentTime;
+            this.state.blogInfo.createTime = currentTime;
+            console.log("********************", this.state);
+            BlogActions.addBlog(this.state.blogInfo);
         };
         this.onChange = (editorState) => this.setState({editorState});
 
@@ -64,13 +77,25 @@ class BlogEdit extends React.Component {
         this.state.editorState = EditorState.createEmpty();
     }
 
+    handleInputChange(event) {
+        const target = event.target;
+        const value = target.type === 'checkbox' ? target.checked : target.value;
+        const name = target.name;
+
+        this.state.blogInfo[name] = value;
+        let bloginfo = this.state.blogInfo;
+        this.setState({
+            blogInfo: bloginfo
+        });
+    }
+
     render() {
         const {editorState} = this.state;
 
         // If the user changes block type before entering any text, we can
         // either style the placeholder or hide it. Let's just hide it now.
         let className = 'RichEditor-editor';
-        var contentState = editorState.getCurrentContent();
+        let contentState = editorState.getCurrentContent();
         if (!contentState.hasText()) {
             if (contentState.getBlockMap().first().getType() !== 'unstyled') {
                 className += ' RichEditor-hidePlaceholder';
@@ -79,6 +104,14 @@ class BlogEdit extends React.Component {
         return (
             <div>
                 <h1>Content from blog edit. {this.props.params.blogId}</h1>
+                <label>
+                    Name:
+                    <input type="text"  value={this.state.blogInfo.blogName} name="blogName" onChange={this.handleInputChange} />
+                </label>
+                <label>
+                    Title:
+                    <input type="text"  value={this.state.blogInfo.blogTitle} name="blogTitle" onChange={this.handleInputChange} />
+                </label>
 
                 <div className="RichEditor-root">
                     <BlockStyleControls

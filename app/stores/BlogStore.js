@@ -8,6 +8,16 @@ class BlogStore {
     constructor() {
         this.bindActions(BlogActions);
     }
+
+    onAddBlogSuccess(successMessage) {
+        this.nameValidationState = 'has-success';
+        this.helpBlock = successMessage;
+    }
+
+    onAddBlogFail(errorMessage) {
+        this.nameValidationState = 'has-error';
+        this.helpBlock = errorMessage;
+    }
 }
 
 export default alt.createStore(BlogStore);

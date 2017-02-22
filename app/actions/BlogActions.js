@@ -9,6 +9,24 @@ import alt from '../alt';
 
 class BlogActions {
     constructor() {
+        this.generateActions(
+            'addBlogSuccess',
+            'addBlogFail'
+        );
+    }
+
+    addBlog(blog) {
+        $.ajax({
+            type: 'POST',
+            url: '/api/blog',
+            data: {blogInfo: blog}
+        })
+            .done((data) => {
+                this.actions.addBlogSuccess(data.message);
+            })
+            .fail((jqXhr) => {
+                this.actions.addBlogFail(jqXhr.responseJSON.message);
+            });
     }
 }
 

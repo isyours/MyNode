@@ -13,6 +13,7 @@ var routes = require('./app/routes');
 
 var mongoose = require('mongoose');
 var config = require('./config');
+var async = require('async');
 
 var Blog = require('./models/blog');
 
@@ -70,9 +71,18 @@ app.get('/api/blog/page/:pageNum', function(req, res, next) {
     });
 });
 
+/**
+ * Save new blog
+ */
+app.post('/api/blog', function(req, res, next) {
+    var gender = req.body.blogInfo;
+    console.log("Save new blog ", req.body);
+    return res.status(404).send({ message: 'Character not found.' });
+});
+
 app.use(function(req, res) {
     Router.run(routes, req.path, function(Handler) {
-        var ComponentFactory = React.createFactory(Handler)
+        var ComponentFactory = React.createFactory(Handler);
         var html = ReactDOMServer.renderToString(ComponentFactory());
         var page = swig.renderFile('views/index.html', { html: html });
         res.send(page);
