@@ -19,7 +19,7 @@ class BlogActions {
         $.ajax({
             type: 'POST',
             url: '/api/blog',
-            data: {blogInfo: blog}
+            data: {blogInfo: JSON.stringify(blog)}
         })
             .done((data) => {
                 this.actions.addBlogSuccess(data.message);

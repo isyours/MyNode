@@ -83,9 +83,9 @@ class BlogEdit extends React.Component {
         const name = target.name;
 
         this.state.blogInfo[name] = value;
-        let bloginfo = this.state.blogInfo;
+        let blogInfo = this.state.blogInfo;
         this.setState({
-            blogInfo: bloginfo
+            blogInfo: blogInfo
         });
     }
 

@@ -14,6 +14,8 @@ var routes = require('./app/routes');
 var mongoose = require('mongoose');
 var config = require('./config');
 var async = require('async');
+var xml2js = require('xml2js');
+var request = require('request');
 
 var Blog = require('./models/blog');
 
@@ -75,9 +77,38 @@ app.get('/api/blog/page/:pageNum', function(req, res, next) {
  * Save new blog
  */
 app.post('/api/blog', function(req, res, next) {
-    var gender = req.body.blogInfo;
-    console.log("Save new blog ", req.body);
-    return res.status(404).send({ message: 'Character not found.' });
+    let gender = JSON.parse(req.body.blogInfo);
+    console.log("Save new blog ", gender);
+
+    async.waterfall([
+        function(callback) {
+            console.log('save new blog waterfall', callback);
+            if (callback) {
+                callback(null, 'this from upstairs');
+            }
+        },
+        function(message) {
+            console.log('message:', message);
+            try {
+                let currentDate = new Date();
+                let blog = new Blog({
+                    blogId: currentDate.getTime() + '',
+                    blogName: gender.blogName,
+                    blogTitle: gender.blogTitle,
+                    blogContent: gender.blogContent,
+                    createTime: gender.createTime,
+                    updateTime: gender.updateTime
+                });
+
+                blog.save(function(err) {
+                    if (err) return next(err);
+                    res.send({ message: 'create obj success!' + JSON.stringify(blog) });
+                });
+            } catch (e) {
+                res.status(404).send({ message: 'Save new blog fail' });
+            }
+        }
+    ]);
 });
 
 app.use(function(req, res) {
