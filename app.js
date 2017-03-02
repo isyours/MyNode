@@ -55,7 +55,7 @@ app.get('/api/blog/page/:pageNum', function(req, res, next) {
     console.info('Get Blog list, Page is ', pageNum);
     console.info('Get Blog list, Page size is ', pageSize);
 
-    Blog.find({}).skip(pageNum * pageSize).limit(pageSize).exec(function (err, blogList) {
+    Blog.find({}).sort({updateTime: 'desc'}).skip(pageNum * pageSize).limit(pageSize).exec(function (err, blogList) {
         console.info('Get Blog list, Error info', err);
         if (err) return next(err);
         console.info('Get Blog list, Result info', blogList);

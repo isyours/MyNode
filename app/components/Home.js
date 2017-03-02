@@ -45,8 +45,7 @@ class Home extends React.Component {
                             <CardMedia style={{height: "40%"}} >
                                 <img src="http://www.material-ui.com/images/nature-600-337.jpg" />
                             </CardMedia>
-                            <CardText style={{height: "30%"}}>
-                                {blog.blogContent}
+                            <CardText style={{height: "30%"}} dangerouslySetInnerHTML={{__html: blog.blogContent}}>
                             </CardText>
                         </Card>
                     </Link>
