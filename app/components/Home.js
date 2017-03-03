@@ -7,6 +7,8 @@ import HomeActions from '../actions/HomeActions';
 import { Link } from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import InfiniteScroll from 'react-infinite-scroller';
+import Navbar from './Navbar';
+import ExecutionEnvironment from 'exenv';
 
 
 class Home extends React.Component {
@@ -19,10 +21,14 @@ class Home extends React.Component {
 
     componentDidMount() {
         HomeStore.listen(this.onChange);
+        if (ExecutionEnvironment.canUseDOM) {
+            document.documentElement.addEventListener('scroll', this.handleScroll);
+        }
     }
 
     componentWillUnmount() {
         HomeStore.unlisten(this.onChange);
+        document.documentElement.removeEventListener('scroll', this.handleScroll);
     }
 
     onChange(state) {
@@ -31,6 +37,10 @@ class Home extends React.Component {
 
     loadBlog(page) {
         HomeActions.getBlogList(page);
+    }
+
+    handleScroll() {
+        console.log('home scroll');
     }
 
     render() {
@@ -56,15 +66,24 @@ class Home extends React.Component {
         }
 
         return (
-                <InfiniteScroll
-                    pageStart={0}
-                    loadMore={this.loadBlog.bind(this)}
-                    hasMore={this.state.hasMoreBlog}
-                    loader={<div className="loader">Loading ...</div>}
-                    useWindow={false}
-                >
-                    {blogListContent}
-                </InfiniteScroll>
+            <div>
+                <div>
+                    <div style={{ height: 300, background: 'blue' }}>
+                    </div>
+                    <Navbar />
+                </div>
+                <div style={{marginLeft: "20%", height: "100%", overflow: "auto"}} >
+                    <InfiniteScroll
+                        pageStart={0}
+                        loadMore={this.loadBlog.bind(this)}
+                        hasMore={this.state.hasMoreBlog}
+                        loader={<div className="loader">Loading ...</div>}
+                        useWindow={false}
+                    >
+                        {blogListContent}
+                    </InfiniteScroll>
+                </div>
+            </div>
         );
     }
 }

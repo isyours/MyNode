@@ -2,7 +2,8 @@ import React from 'react';
 import AppBar from 'material-ui/AppBar';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
+
 
 class Navbar extends React.Component {
     constructor(props) {

@@ -7,10 +7,26 @@ import {grey300} from 'material-ui/styles/colors';
 import {grey900} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {RouteHandler} from 'react-router';
-import Navbar from './Navbar';
 import Footer from './Footer';
+import ExecutionEnvironment from 'exenv';
+
 
 class App extends React.Component {
+
+    componentDidMount() {
+        console.log('use dom state', ExecutionEnvironment.canUseDOM);
+        if (ExecutionEnvironment.canUseDOM) {
+            document.documentElement.addEventListener('scroll', this.handleScroll);
+        }
+    }
+
+    componentWillUnmount() {
+        document.documentElement.removeEventListener('scroll', this.handleScroll);
+    }
+
+    handleScroll() {
+        console.log('app scroll');
+    }
 
     render() {
         let muiTheme = getMuiTheme({
@@ -25,18 +41,9 @@ class App extends React.Component {
         });
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
-                <div style={{height: "100%", width: "100%", float: "left", margin: 0, position: "absolute"}}>
-                    <div style={{height: "10%", width: "100%", margin: 0}}>
-                        <Navbar />
-                    </div>
-                    <div style={{height: "80%", width: "100%", margin: 0}}>
-                        <div style={{marginLeft: "20%", height: "100%", overflow: "auto"}}>
-                            <RouteHandler />
-                        </div>
-                    </div>
-                    <div style={{height: "10%", width: "100%", margin: 0, overflow: "hidden"}}>
-                        <Footer />
-                    </div>
+                <div>
+                    <RouteHandler/>
+                    <Footer />
                 </div>
             </MuiThemeProvider>
         );
