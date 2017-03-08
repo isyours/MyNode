@@ -4,11 +4,11 @@
 import React from 'react';
 import HomeStore from '../stores/HomeStore'
 import HomeActions from '../actions/HomeActions';
-import { Link } from 'react-router'
+import {Link} from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import InfiniteScroll from 'react-infinite-scroller';
 import Navbar from './Navbar';
-import ExecutionEnvironment from 'exenv';
+import { StickyContainer, Sticky } from 'react-sticky';
 
 
 class Home extends React.Component {
@@ -17,18 +17,21 @@ class Home extends React.Component {
         super(props);
         this.state = HomeStore.getState();
         this.onChange = this.onChange.bind(this);
+        this.onTopChangeHandler = this.onTopChangeHandler.bind(this);
+        this.token = null;
+        this.state.headerBackgroundOpacity = 1;
     }
 
     componentDidMount() {
         HomeStore.listen(this.onChange);
-        if (ExecutionEnvironment.canUseDOM) {
-            document.documentElement.addEventListener('scroll', this.handleScroll);
-        }
+        this.token = PubSub.subscribe('TOP_CHANGE_EVENT', this.onTopChangeHandler)
     }
 
     componentWillUnmount() {
         HomeStore.unlisten(this.onChange);
-        document.documentElement.removeEventListener('scroll', this.handleScroll);
+        if (this.token) {
+            PubSub.unsubscribe(this.token);
+        }
     }
 
     onChange(state) {
@@ -39,8 +42,19 @@ class Home extends React.Component {
         HomeActions.getBlogList(page);
     }
 
-    handleScroll() {
-        console.log('home scroll');
+    onTopChangeHandler(topic, data) {
+        if (!topic || 'TOP_CHANGE_EVENT' !== topic) {
+            return;
+        }
+        let opacity;
+        if (data < 300) {
+            opacity = 1 - data / 300;
+        } else {
+            opacity = 0;
+        }
+        this.setState({
+            headerBackgroundOpacity: opacity
+        });
     }
 
     render() {
@@ -67,22 +81,31 @@ class Home extends React.Component {
 
         return (
             <div>
-                <div>
-                    <div style={{ height: 300, background: 'blue' }}>
+                <StickyContainer>
+                    <div>
+                        <div style={{ background: 'blue', position: 'absolute', width: '100%' }}>
+                            <div style={{backgroundImage: 'url("http://paullaros.nl/material-blog-1-1/img/travel/unsplash-1.jpg")',
+                                backgroundPosition: 'center 30%', opacity: this.state.headerBackgroundOpacity,
+                                position: 'absolute', height: 300, width: '100%' }}></div>
+                            <div style={{paddingTop: 250}}>
+                                <Sticky>
+                                <Navbar />
+                                </Sticky>
+                            </div>
+                        </div>
                     </div>
-                    <Navbar />
-                </div>
-                <div style={{marginLeft: "20%", height: "100%", overflow: "auto"}} >
-                    <InfiniteScroll
-                        pageStart={0}
-                        loadMore={this.loadBlog.bind(this)}
-                        hasMore={this.state.hasMoreBlog}
-                        loader={<div className="loader">Loading ...</div>}
-                        useWindow={false}
-                    >
-                        {blogListContent}
-                    </InfiniteScroll>
-                </div>
+                    <div style={{marginLeft: "20%", height: "100%", paddingTop: 330, overflow: "auto"}} >
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={this.loadBlog.bind(this)}
+                            hasMore={this.state.hasMoreBlog}
+                            loader={<div className="loader">Loading ...</div>}
+                            useWindow={false}
+                        >
+                            {blogListContent}
+                        </InfiniteScroll>
+                    </div>
+                </StickyContainer>
             </div>
         );
     }

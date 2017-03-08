@@ -5,6 +5,7 @@
     "bootstrap": "^3.3.5",
     "magnific-popup": "^1.0.0",
     "toastr": "^2.1.1",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "PubSubJS": "pubsub-js#^1.5.4"
   }
 }

@@ -22,6 +22,7 @@ var dependencies = [
     'react',
     'react-dom',
     'react-router',
+    'react-pubsub',
     'react-tap-event-plugin',
     'material-ui',
     'react-infinite-scroller',
@@ -46,7 +47,8 @@ gulp.task('vendor', function() {
         'bower_components/lodash/dist/lodash.core.js',
         'bower_components/lodash/dist/lodash.fp.js',
         'bower_components/lodash/dist/mapping.fp.js',
-        'bower_components/toastr/toastr.js'
+        'bower_components/toastr/toastr.js',
+        'bower_components/PubSubJS/src/pubsub.js'
     ]).pipe(concat('vendor.js'))
         .pipe(gulpif(production, uglify({ mangle: false })))
         .pipe(gulp.dest('public/js'));

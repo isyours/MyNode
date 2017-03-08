@@ -3,8 +3,7 @@
  */
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {grey300} from 'material-ui/styles/colors';
-import {grey900} from 'material-ui/styles/colors';
+import {grey300, grey900} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {RouteHandler} from 'react-router';
 import Footer from './Footer';
@@ -12,20 +11,26 @@ import ExecutionEnvironment from 'exenv';
 
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {isToggleOn: true};
+
+        // This binding is necessary to make `this` work in the callback
+        this.handleScroll = this.handleScroll.bind(this);
+    }
 
     componentDidMount() {
-        console.log('use dom state', ExecutionEnvironment.canUseDOM);
         if (ExecutionEnvironment.canUseDOM) {
-            document.documentElement.addEventListener('scroll', this.handleScroll);
+            window.addEventListener('scroll', this.handleScroll.bind(this));
         }
     }
 
     componentWillUnmount() {
-        document.documentElement.removeEventListener('scroll', this.handleScroll);
+        window.removeEventListener('scroll', this.handleScroll.bind(this));
     }
 
-    handleScroll() {
-        console.log('app scroll');
+    handleScroll(e) {
+        PubSub.publish('TOP_CHANGE_EVENT', $(e.target).scrollTop());
     }
 
     render() {
