@@ -14,6 +14,7 @@ var babelify = require('babelify');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var uglify = require('gulp-uglify');
+var changed = require('gulp-changed');
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -110,6 +111,26 @@ gulp.task('browserify-watch', ['browserify-vendor'], function() {
 });
 
 /*
+ |---------------------------------------------------------------------------
+ | Add material-design-icon to release path
+ |---------------------------------------------------------------------------
+ */
+gulp.task('materialUi', function () {
+    return gulp.src([
+            'node_modules/material-design-icons/iconfont/codepoints',
+            'node_modules/material-design-icons/iconfont/material-icons.css',
+            'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.eot',
+            'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ijmap',
+            'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.svg',
+            'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.ttf',
+            'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff',
+            'node_modules/material-design-icons/iconfont/MaterialIcons-Regular.woff2',
+            '*!README.md'])
+        .pipe(changed('public/css'))
+        .pipe(gulp.dest('public/css'));
+});
+
+/*
  |--------------------------------------------------------------------------
  | Compile LESS stylesheets.
  |--------------------------------------------------------------------------
@@ -127,5 +148,5 @@ gulp.task('watch', function() {
     gulp.watch('app/stylesheets/**/*.less', ['styles']);
 });
 
-gulp.task('default', ['styles', 'vendor', 'browserify-watch', 'watch']);
-gulp.task('build', ['styles', 'vendor', 'browserify']);
+gulp.task('default', ['styles', 'materialUi', 'vendor', 'browserify-watch', 'watch']);
+gulp.task('build', ['styles', 'materialUi', 'vendor', 'browserify']);

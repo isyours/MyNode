@@ -8,7 +8,7 @@ import {Link} from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import InfiniteScroll from 'react-infinite-scroller';
 import Navbar from './Navbar';
-import { StickyContainer, Sticky } from 'react-sticky';
+import {StickyContainer, Sticky} from 'react-sticky';
 
 
 class Home extends React.Component {
@@ -89,7 +89,7 @@ class Home extends React.Component {
                                 position: 'absolute', height: 300, width: '100%' }}></div>
                             <div style={{paddingTop: 250}}>
                                 <Sticky>
-                                <Navbar />
+                                    <Navbar style={{zIndex: 999}} />
                                 </Sticky>
                             </div>
                         </div>

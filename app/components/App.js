@@ -3,7 +3,7 @@
  */
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {grey300, grey900} from 'material-ui/styles/colors';
+import {lightBlue500, grey900} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {RouteHandler} from 'react-router';
 import Footer from './Footer';
@@ -36,7 +36,7 @@ class App extends React.Component {
     render() {
         let muiTheme = getMuiTheme({
             palette: {
-                primary1Color: grey300
+                primary1Color: lightBlue500
             },
             appBar: {
                 height: 50,
