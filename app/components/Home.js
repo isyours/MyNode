@@ -4,11 +4,14 @@
 import React from 'react';
 import HomeStore from '../stores/HomeStore'
 import HomeActions from '../actions/HomeActions';
+import BlogThumbnail from './BlogThumbnail';
 import {Link} from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import InfiniteScroll from 'react-infinite-scroller';
 import Navbar from './Navbar';
+import BlogSearchBar from './BlogSearchBar';
 import {StickyContainer, Sticky} from 'react-sticky';
+import {lightBlue500} from 'material-ui/styles/colors';
 
 
 class Home extends React.Component {
@@ -20,6 +23,7 @@ class Home extends React.Component {
         this.onTopChangeHandler = this.onTopChangeHandler.bind(this);
         this.token = null;
         this.state.headerBackgroundOpacity = 1;
+        this.fromTop = 305;
     }
 
     componentDidMount() {
@@ -47,14 +51,20 @@ class Home extends React.Component {
             return;
         }
         let opacity;
-        if (data < 300) {
-            opacity = 1 - data / 300;
+        // console.log("current data is ", data);
+        // console.log("current from top is ", this.fromTop);
+        if (data < this.fromTop) {
+            opacity = 1 - data / this.fromTop;
         } else {
             opacity = 0;
         }
-        this.setState({
-            headerBackgroundOpacity: opacity
-        });
+        // console.log("current opacity is ", opacity);
+        let updateTrigger = Math.floor(opacity * 100);
+        if (updateTrigger % 2 === 0) {
+            this.setState({
+                headerBackgroundOpacity: opacity
+            });
+        }
     }
 
     render() {
@@ -62,17 +72,9 @@ class Home extends React.Component {
         if (this.state.blogList && this.state.blogList instanceof Array) {
             blogListContent = this.state.blogList.map((blog) => {
                 return (
-                    <Link key={blog.blogId} to='blogDetail' params={{blogId: blog.blogId}}
-                          style={{textDecoration: 'none', color: 'black'}}>
-                        <Card style={{width: "90%"}}>
-                            <CardTitle title={blog.blogName} subtitle={blog.blogTitle} style={{height: "30%"}} />
-                            <CardMedia style={{height: "40%"}} >
-                                <img src="http://www.material-ui.com/images/nature-600-337.jpg" />
-                            </CardMedia>
-                            <CardText style={{height: "30%"}} dangerouslySetInnerHTML={{__html: blog.blogContent}}>
-                            </CardText>
-                        </Card>
-                    </Link>
+                    <BlogThumbnail
+                        blogItem={blog}
+                    />
                 )
             });
         } else {
@@ -83,27 +85,31 @@ class Home extends React.Component {
             <div>
                 <StickyContainer>
                     <div>
-                        <div style={{ background: 'blue', position: 'absolute', width: '100%' }}>
+                        <div style={{ background: lightBlue500, position: 'absolute', width: '100%' }}>
                             <div style={{backgroundImage: 'url("http://paullaros.nl/material-blog-1-1/img/travel/unsplash-1.jpg")',
                                 backgroundPosition: 'center 30%', opacity: this.state.headerBackgroundOpacity,
-                                position: 'absolute', height: 300, width: '100%' }}></div>
-                            <div style={{paddingTop: 250}}>
-                                <Sticky>
-                                    <Navbar style={{zIndex: 999}} />
+                                position: 'absolute', height: this.fromTop + 5, width: '100%' }}></div>
+                            <div style={{paddingTop: this.fromTop - 50}}>
+                                <Sticky style={{zIndex: 999}}>
+                                    <Navbar/>
                                 </Sticky>
                             </div>
                         </div>
                     </div>
-                    <div style={{marginLeft: "20%", height: "100%", paddingTop: 330, overflow: "auto"}} >
+                    <div className="container" style={{height: "100%", paddingTop: this.fromTop + 30, overflow: "auto"}} >
                         <InfiniteScroll
                             pageStart={0}
                             loadMore={this.loadBlog.bind(this)}
                             hasMore={this.state.hasMoreBlog}
                             loader={<div className="loader">Loading ...</div>}
                             useWindow={false}
+                            className="col-sm-8 blog-main"
                         >
                             {blogListContent}
                         </InfiniteScroll>
+                        <div className="col-sm-3 col-sm-offset-1">
+                            <div><BlogSearchBar/></div>
+                        </div>
                     </div>
                 </StickyContainer>
             </div>

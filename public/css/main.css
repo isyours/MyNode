@@ -2,6 +2,42 @@ html {
   background: url(/public/img/bg.jpg) no-repeat center center fixed;
   background-size: cover;
 }
+@media screen and (min-width: 1200px) {
+  .container {
+    width: 1040px;
+  }
+  .col-sm-8 {
+    width: 66%;
+    position: inherit;
+  }
+  .col-sm-3 {
+    width: 25%;
+    position: absolute;
+  }
+  .col-sm-offset-1 {
+    margin-left: 50%;
+  }
+  .col-sm-8,
+  .col-sm-3 {
+    float: left;
+  }
+  .col-sm-8,
+  .col-sm-3 {
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+}
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.blog-main {
+  font-size: 14px;
+  line-height: 1.5;
+}
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;
@@ -26,16 +62,16 @@ html {
      -moz-font-feature-settings: 'liga';
           font-feature-settings: 'liga';
 }
-.material-icons.md-dark {
+.md-dark {
   color: rgba(0, 0, 0, 0.54);
 }
-.material-icons.md-dark.md-inactive {
+.md-dark.md-inactive {
   color: rgba(0, 0, 0, 0.26);
 }
-.material-icons.md-light {
+.md-light {
   color: #ffffff;
 }
-.material-icons.md-light.md-inactive {
+.md-light.md-inactive {
   color: rgba(255, 255, 255, 0.3);
 }
 .RichEditor-root {
