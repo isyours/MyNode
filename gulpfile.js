@@ -31,7 +31,10 @@ var dependencies = [
     'react-addons-transition-group',
     'react-addons-shallow-compare',
     'underscore',
-    'draft-js'
+    'draft-js',
+    'react-codemirror',
+    'material-ui-chip-input',
+    'react-dropzone'
 ];
 
 /*
@@ -49,7 +52,9 @@ gulp.task('vendor', function() {
         'bower_components/lodash/dist/lodash.fp.js',
         'bower_components/lodash/dist/mapping.fp.js',
         'bower_components/toastr/toastr.js',
-        'bower_components/PubSubJS/src/pubsub.js'
+        'bower_components/PubSubJS/src/pubsub.js',
+        'bower_components/showdown/dist/showdown.min.js',
+        'node_modules/codemirror/mode/markdown/markdown.js'
     ]).pipe(concat('vendor.js'))
         .pipe(gulpif(production, uglify({ mangle: false })))
         .pipe(gulp.dest('public/js'));

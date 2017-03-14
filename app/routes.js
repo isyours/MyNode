@@ -6,12 +6,12 @@ import {Route} from 'react-router';
 import App from './components/App';
 import Home from './components/Home';
 import BlogDetail from './components/BlogDetail';
-import BlogEdit from './components/BlogEdit';
+import BlogEditPage from './components/BlogEditPage';
 
 export default (
     <Route handler={App}>
         <Route name='mainPage' path='/' handler={Home} />
-        <Route name='blogEdit' path='/edit/blog' handler={BlogEdit}/>
+        <Route name='blogEdit' path='/edit/blog' handler={BlogEditPage}/>
         <Route name='blogDetail' path='/blog/:blogId' handler={BlogDetail} />
     </Route>
 );

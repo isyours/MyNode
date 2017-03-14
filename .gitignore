@@ -107,4 +107,5 @@ jspm_packages
 MyNode.iml
 public/css/
 public/js/
+public/img/upload/
 bower_components/

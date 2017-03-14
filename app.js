@@ -16,6 +16,7 @@ var config = require('./config');
 var async = require('async');
 var xml2js = require('xml2js');
 var request = require('request');
+var fileUpload = require('express-fileupload');
 
 var Blog = require('./models/blog');
 
@@ -38,6 +39,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(fileUpload());
 
 app.get('/api/blog', function(req, res, next) {
     Blog.find({}).exec(function (err, blogList) {
@@ -109,6 +111,25 @@ app.post('/api/blog', function(req, res, next) {
             }
         }
     ]);
+});
+
+/**
+ * Save picture to server
+ */
+app.post('/upload', function(req, res) {
+    if (!req.files) {
+        return res.status(400).send('No files were uploaded.');
+    } else {
+        console.log('=========DEBUG==========', req.files.data);
+    }
+
+    let uploadFile = req.files.data;
+    uploadFile.mv(config.uploadPicPath + uploadFile.name, function(err) {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.send('File uploaded!');
+    });
 });
 
 app.use(function(req, res) {
