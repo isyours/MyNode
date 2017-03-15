@@ -18,6 +18,17 @@ class BlogStore {
         this.nameValidationState = 'has-error';
         this.helpBlock = errorMessage;
     }
+
+    onGetBlogSuccess(response) {
+        this.blogInfo = response.blogInfo;
+        this.setState({
+            blogInfo: this.blogInfo
+        });
+    }
+
+    onGetBlogFail(errorMessage) {
+        this.helpBlock = errorMessage;
+    }
 }
 
 export default alt.createStore(BlogStore);

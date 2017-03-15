@@ -6,7 +6,6 @@ import BlogActions from '../actions/BlogActions';
 import BlogMarkdownEditor from './BlogMarkdownEditor';
 import ChipInput from 'material-ui-chip-input';
 import Dropzone from 'react-dropzone';
-import _ from 'lodash';
 
 class BlogEditPage extends React.Component {
     constructor(props) {

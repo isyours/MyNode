@@ -50,6 +50,19 @@ app.get('/api/blog', function(req, res, next) {
     });
 });
 
+/**
+ * Get blog by blogId
+ */
+app.get('/api/blog/:blogId', function (req, res, next) {
+    var blogId = req.params.blogId + '';
+    Blog.findOne({blogId: blogId}, function(err,obj) {
+        if (err) return next(err);
+        res.send({
+            blogInfo: obj
+        })
+    });
+});
+
 app.get('/api/blog/page/:pageNum', function(req, res, next) {
     var pageNum = req.params.pageNum - 0;
     var pageSize = req.query.size - 0;

@@ -11,7 +11,9 @@ class BlogActions {
     constructor() {
         this.generateActions(
             'addBlogSuccess',
-            'addBlogFail'
+            'addBlogFail',
+            'getBlogSuccess',
+            'getBlogFail'
         );
     }
 
@@ -26,6 +28,19 @@ class BlogActions {
             })
             .fail((jqXhr) => {
                 this.actions.addBlogFail(jqXhr.responseJSON.message);
+            });
+    }
+
+    getBlogById(blogId) {
+        $.ajax({
+            type: 'GET',
+            url: '/api/blog/' + blogId
+        })
+            .done((response) => {
+                this.actions.getBlogSuccess(response);
+            })
+            .fail((jqXhr) => {
+                this.actions.getBlogFail(jqXhr.responseJSON.message);
             });
     }
 }

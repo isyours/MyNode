@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 
 var blogSchema = new mongoose.Schema({
-    blogId: String,
+    blogId: {type: String, unique: true},
     blogName: String,
     blogTitle: String,
     blogContent: String,
