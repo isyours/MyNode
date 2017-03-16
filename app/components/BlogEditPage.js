@@ -47,9 +47,7 @@ class BlogEditPage extends React.Component {
     }
 
     onDrop(files) {
-        console.log('Received files: ', files);
         for (let i in files) {
-            console.log("===================", i);
             if (!this.state.uploadFiles[i]) {
                 this._uploadFile(i, files[i]);
             }

@@ -112,7 +112,10 @@ app.post('/api/blog', function(req, res, next) {
                     blogTitle: gender.blogTitle,
                     blogContent: gender.blogContent,
                     createTime: gender.createTime,
-                    updateTime: gender.updateTime
+                    updateTime: gender.updateTime,
+                    blogTags: gender.blogTags,
+                    blogBackground: gender.blogBackground,
+                    blogMarkdownContent: gender.blogMarkdownContent,
                 });
 
                 blog.save(function(err) {
