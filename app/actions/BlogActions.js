@@ -31,10 +31,10 @@ class BlogActions {
             });
     }
 
-    getBlogById(blogId) {
+    getBlogByTitle(blogTitle) {
         $.ajax({
             type: 'GET',
-            url: '/api/blog/' + blogId
+            url: '/api/blog/' + blogTitle
         })
             .done((response) => {
                 this.actions.getBlogSuccess(response);

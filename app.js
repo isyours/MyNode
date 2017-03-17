@@ -19,6 +19,7 @@ var request = require('request');
 var fileUpload = require('express-fileupload');
 
 var Blog = require('./models/blog');
+var BlogMessage = require('./models/blogMessage');
 
 process.evn = require('init-env')({
     logToConsole: true,
@@ -53,9 +54,9 @@ app.get('/api/blog', function(req, res, next) {
 /**
  * Get blog by blogId
  */
-app.get('/api/blog/:blogId', function (req, res, next) {
-    var blogId = req.params.blogId + '';
-    Blog.findOne({blogId: blogId}, function(err,obj) {
+app.get('/api/blog/:blogTitle', function (req, res, next) {
+    var blogTitle = req.params.blogTitle + '';
+    Blog.findOne({blogTitle: blogTitle}, function(err,obj) {
         if (err) return next(err);
         res.send({
             blogInfo: obj
@@ -148,8 +149,62 @@ app.post('/upload', function(req, res) {
     });
 });
 
+/**
+ * Get message list by blogId
+ */
+app.get('/api/blog/:blogId/message', function (req, res) {
+    var blogId = req.params.blogId + '';
+    BlogMessage.find({blogId: blogId}).sort({createTime: 'desc'}).exec(function (err, blogMsgList) {
+        console.info('Get Blog list, Error info', err);
+        if (err) return next(err);
+        console.info('Get Blog list, Result info', blogMsgList);
+        return res.send({
+            blogMessageList: blogMsgList
+        });
+    });
+});
+
+/**
+ * Save new blog message
+ */
+app.post('/api/blog-message', function(req, res, next) {
+    let gender = JSON.parse(req.body.blogMessageInfo);
+    console.log("Save new blog ", gender);
+
+    async.waterfall([
+        function(callback) {
+            console.log('save new blog waterfall', callback);
+            if (callback) {
+                callback(null, 'this from upstairs');
+            }
+        },
+        function(message) {
+            console.log('message:', message);
+            try {
+                let currentDate = new Date();
+                let blogMessage = new BlogMessage({
+                    messageId: currentDate.getTime() + '',
+                    blogId: gender.blogId,
+                    userName: gender.userName,
+                    userIp: gender.userIp,
+                    email: gender.email,
+                    messageContent: gender.messageContent,
+                    createTime: currentDate.getTime()
+                });
+
+                blogMessage.save(function(err) {
+                    if (err) return next(err);
+                    res.send({ message: 'create obj success!' + JSON.stringify(blogMessage) });
+                });
+            } catch (e) {
+                res.status(404).send({ message: 'Save new blog message fail' });
+            }
+        }
+    ]);
+});
+
 app.use(function(req, res) {
-    Router.run(routes, req.path, function(Handler) {
+    Router.run(routes, '/', function(Handler) {
         var ComponentFactory = React.createFactory(Handler);
         var html = ReactDOMServer.renderToString(ComponentFactory());
         var page = swig.renderFile('views/index.html', { html: html });

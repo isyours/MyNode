@@ -22,7 +22,7 @@ class BlogEditPage extends React.Component {
 
         this.handleInputChange = this.handleInputChange.bind(this);
         this.submitCallback = this.submitCallback.bind(this);
-        this.handleTagsChange = this.handleTagsChange(this);
+        this.handleTagsChange = this.handleTagsChange.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.onOpenClick = this.onOpenClick.bind(this);
         this._uploadFile = this._uploadFile.bind(this);
@@ -87,7 +87,7 @@ class BlogEditPage extends React.Component {
         let currentTime = new Date();
         this.state.blogInfo.updateTime = currentTime;
         this.state.blogInfo.createTime = currentTime;
-        console.log("blog save", this.state.blogInfo);
+        this.state.blogInfo.blogTags = this.state.blogTags;
         BlogActions.addBlog(this.state.blogInfo);
         document.location.href = "/";
     }
@@ -100,8 +100,12 @@ class BlogEditPage extends React.Component {
                     <input type="text"  value={this.state.blogInfo.blogName} name="blogName" onChange={this.handleInputChange} />
                 </div>
                 <div>
-                    Title:
+                    Url-navigate:
                     <input type="text"  value={this.state.blogInfo.blogTitle} name="blogTitle" onChange={this.handleInputChange} />
+                </div>
+                <div>
+                    Brief:
+                    <input type="text" value={this.state.blogInfo.blogBrief} name="blogBrief" onChange={this.handleInputChange}/>
                 </div>
                 <div>
                     Pic:

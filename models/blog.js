@@ -3,7 +3,8 @@ var mongoose = require('mongoose');
 var blogSchema = new mongoose.Schema({
     blogId: {type: String, unique: true},
     blogName: String,
-    blogTitle: String,
+    blogTitle: {type: String, unique: true},
+    blogBrief: String,
     blogContent: String,
     blogMarkdownContent: String,
     blogTags: [String],

@@ -4,6 +4,7 @@
 import React from 'react';
 import {Link} from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import BlogTag from './BlogTag';
 
 
 class BlogThumbnail extends React.Component {
@@ -30,17 +31,19 @@ class BlogThumbnail extends React.Component {
 
     render() {
         return (
-            <Link key={this.blogItem.blogId} to='blogDetail' params={{blogId: this.blogItem.blogId}}  style={{textDecoration: 'none', color: 'black'}}>
+            <Link key={this.blogItem.blogId} to='blogDetail' params={{blogTitle: this.blogItem.blogTitle}}  style={{textDecoration: 'none', color: 'black'}}>
             <Card
                 onMouseOver={this.onMouseOver}
                 onMouseOut={this.onMouseOut}
                 zDepth={this.state.shadow}
                 style={{width: "90%", zIndex: 100, marginBottom: 15}}>
-                <CardTitle title={this.blogItem.blogName} subtitle={this.blogItem.blogTitle} style={{height: "30%", position: "inherit"}} />
+                <CardTitle title={this.blogItem.blogName} style={{height: "30%", position: "inherit"}} />
+                <BlogTag blogTags={this.blogItem.blogTags}/>
                 <CardMedia style={{height: "40%", position: "inherit"}} >
                     <img src = {this.blogItem.picLink} />
                 </CardMedia>
-                <CardText style={{height: "30%", position: "inherit"}} dangerouslySetInnerHTML={{__html: this.blogItem.blogContent}}>
+                <CardText style={{height: "30%", position: "inherit"}}>
+                    {this.blogItem.blogBrief}
                 </CardText>
             </Card>
             </Link>
