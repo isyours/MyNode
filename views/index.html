@@ -26,19 +26,15 @@
             float: left;
             margin: 0;
             background: #eeeeee;
+            font-family: Georgia, "Times New Roman",
+                        "Microsoft YaHei", "微软雅黑",
+                        STXihei, "华文细黑",
+                        serif;
         }
-
         #app {
             min-height: 100%;
         }
     </style>
-    <!--[if lte IE 6] -->
-    <style type="text/css">
-        #container {
-            height: 100%;
-        }
-    </style>
-    <!--[endif]-->
 </head>
 <body>
 <div id="app">{{ html|safe }}</div>
