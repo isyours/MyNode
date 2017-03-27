@@ -18,7 +18,7 @@ class BlogTag extends React.Component {
             background: '#396fb0',
             borderRadius: 10,
             color: 'white',
-            opacity: 0.7,
+            opacity: 0.5,
             margin: 5
         };
 
@@ -34,7 +34,7 @@ class BlogTag extends React.Component {
         }
 
         return (
-            <div>{blogTagsContent}</div>
+            <div style={{margin: 8}}>{blogTagsContent}</div>
         );
     }
 }

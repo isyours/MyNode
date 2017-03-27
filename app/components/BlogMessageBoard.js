@@ -2,8 +2,13 @@
  * Created by chenhaolong on 2017/3/17.
  */
 import React from 'react';
+import TextField from 'material-ui/TextField';
 import BlogMessageActions from '../actions/BlogMessageActions';
 import BlogMessageStore from '../stores/BlogMessageStore';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentReply from 'material-ui/svg-icons/content/reply';
+import Divider from 'material-ui/Divider';
+import {FormattedNumber} from 'react-intl';
 
 class BlogMessageBoard extends React.Component {
     constructor(props) {
@@ -21,6 +26,7 @@ class BlogMessageBoard extends React.Component {
         this.onChange = this.onChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
+        this.replyBtnClick = this.replyBtnClick.bind(this);
     }
 
     componentDidMount() {
@@ -38,15 +44,42 @@ class BlogMessageBoard extends React.Component {
         }
     }
 
+    replyBtnClick(state) {
+        console.log('reply click event', state);
+    }
+
     renderMessageList() {
+        const replyBtnStyle = {
+            marginRight: 20,
+            boxShadow: 'none',
+            float: 'right'
+        };
         let messageContent;
         if (this.state.blogMessageList) {
             messageContent = this.state.blogMessageList.map((messageItem) => {
                 return (
-                    <div>
-                        <div>{messageItem.userName}</div>
-                        <div>{messageItem.createTime}</div>
+                    <div style={{padding: 5}}>
+                        <Divider style={{backgroundColor: '#b4dcae', margin: '15px 0px 15px'}}/>
+                        <div>
+                            <span>{messageItem.userName}</span>
+                            <span style={{float: 'right'}}>
+                                <FormattedNumber value={messageItem.createTime}
+                                                 day="numeric"
+                                                 month="long"
+                                                 year="numeric"/>
+                            </span>
+                        </div>
                         <div>{messageItem.messageContent}</div>
+                        <div style={{height: 50}}>
+                            <FloatingActionButton
+                                mini={true}
+                                style={replyBtnStyle}
+                                onTouchTap={this.replyBtnClick}
+                                backgroundColor='rgba(211, 237, 208, 0.7)'
+                            >
+                                <ContentReply style={{fill: '#9c9b84'}} />
+                            </FloatingActionButton>
+                        </div>
                     </div>
                 )
             });
@@ -74,23 +107,29 @@ class BlogMessageBoard extends React.Component {
 
     render() {
         return (
-            <div>
-                <div>{this.renderMessageList()}</div>
-                <div>
+            <div style={{padding: 10}}>
+                <div style={{marginTop: 10, padding: 10}}>
+                    <h1>留言</h1>
+                    {this.renderMessageList()}
+                </div>
+                <div style={{marginTop: 10, padding: 10, background: "#faffbd"}}>
+                    <h1>请给我留言</h1>
                     <div>
-                        UserName:
-                        <input type="text"  value={this.state.newMessage.userName}
-                               name="userName" onChange={this.handleInputChange} />
+                        <TextField hintText="UserName" defaultValue={this.state.newMessage.userName}
+                                   floatingLabelText="UserName"
+                                   name="userName" onChange={this.handleInputChange}/>
                     </div>
                     <div>
-                        Email:
-                        <input type="text"  value={this.state.newMessage.email}
-                               name="email" onChange={this.handleInputChange} />
+                        <TextField hintText="Email" defaultValue={this.state.newMessage.email}
+                                   floatingLabelText="Email"
+                                   name="text" onChange={this.handleInputChange}/>
                     </div>
                     <div>
-                        MessageContent:
-                        <input type="text"  value={this.state.newMessage.messageContent}
-                               name="messageContent" onChange={this.handleInputChange} />
+                        <TextField hintText="Message Content" defaultValue={this.state.newMessage.messageContent}
+                                   floatingLabelText="Message Content"
+                                   name="messageContent" onChange={this.handleInputChange}
+                                   multiLine={true}
+                                   rows={2}/>
                     </div>
                     <div><button onClick={this.submitMessage}>提交</button></div>
                 </div>

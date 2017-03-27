@@ -34,7 +34,8 @@ var dependencies = [
     'draft-js',
     'react-codemirror',
     'material-ui-chip-input',
-    'react-dropzone'
+    'react-dropzone',
+    'react-intl'
 ];
 
 /*

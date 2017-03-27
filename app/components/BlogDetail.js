@@ -5,6 +5,7 @@ import BlogActions from '../actions/BlogActions';
 import BlogStore from '../stores/BlogStore';
 import Navbar from './Navbar';
 import BlogTag from './BlogTag';
+import BlogMessageBoard from './BlogMessageBoard';
 
 
 class BlogDetail extends React.Component {
@@ -78,7 +79,7 @@ class BlogDetail extends React.Component {
                         <div>
                             <div style={styleInfo}></div>
                             <article className="container" style={{
-                                backgroundColor: 'rgba(240, 241, 221, 0.9)',
+                                backgroundColor: 'rgba(211, 237, 208, 0.9)',
                                 height: '100%',
                                 padding: '20px 50px 15px',
                                 position: 'relative',
@@ -89,13 +90,19 @@ class BlogDetail extends React.Component {
                                 <BlogTag blogTags={this.state.blogInfo && this.state.blogInfo.blogTags ?
                                     this.state.blogInfo.blogTags: []} />
                                 <Divider style={{
-                                    backgroundColor: 'rgb(100, 220, 224)',
+                                    backgroundColor: '#d5ecd2',
                                     marginTop: 15
                                 }}/>
                                 <div style={contentStyle}
                                      dangerouslySetInnerHTML={{__html: this.state.blogInfo.blogContent}}></div>
+                                <Divider style={{
+                                    backgroundColor: 'rgb(100, 220, 224)',
+                                    marginTop: 15
+                                }}/>
+                                <div className="container">
+                                    <BlogMessageBoard blogId={this.state.blogInfo.blogId} />
+                                </div>
                             </article>
-                            <div className="container">留言区</div>
                         </div>
                         :
                         <div>未找到当前博客内容</div>

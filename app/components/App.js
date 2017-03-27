@@ -8,6 +8,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {RouteHandler} from 'react-router';
 import Footer from './Footer';
 import ExecutionEnvironment from 'exenv';
+import { IntlProvider } from 'react-intl';
 
 
 class App extends React.Component {
@@ -47,8 +48,10 @@ class App extends React.Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
-                    <RouteHandler/>
-                    <Footer />
+                    <IntlProvider>
+                        <RouteHandler/>
+                        <Footer />
+                    </IntlProvider>
                 </div>
             </MuiThemeProvider>
         );

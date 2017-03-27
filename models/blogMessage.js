@@ -11,6 +11,7 @@ var blogMessageSchema = new mongoose.Schema({
     userIp: String,
     email: String,
     messageContent: String,
+    replayList: [Object],
     createTime: Date
 }, {collection: 'blogMessage'});
 

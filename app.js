@@ -168,9 +168,8 @@ app.get('/api/blog/:blogId/message', function (req, res) {
  * Save new blog message
  */
 app.post('/api/blog-message', function(req, res, next) {
-    let gender = JSON.parse(req.body.blogMessageInfo);
+    let gender = JSON.parse(req.body.blogInfo);
     console.log("Save new blog ", gender);
-
     async.waterfall([
         function(callback) {
             console.log('save new blog waterfall', callback);
@@ -186,7 +185,7 @@ app.post('/api/blog-message', function(req, res, next) {
                     messageId: currentDate.getTime() + '',
                     blogId: gender.blogId,
                     userName: gender.userName,
-                    userIp: gender.userIp,
+                    userIp: req.connection.remoteAddress,
                     email: gender.email,
                     messageContent: gender.messageContent,
                     createTime: currentDate.getTime()
