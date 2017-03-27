@@ -72,7 +72,11 @@ class Navbar extends React.Component {
     }
 
     buttonClickAction(url) {
-        console.log('current user click ', url);
+        if (url === 'blog-btn') {
+            window.location.href = '/';
+        } else {
+            console.log('current user click ', url);
+        }
     }
 
     render() {
@@ -103,7 +107,7 @@ class Navbar extends React.Component {
                                 style={this.state.menuItemFontStyle}
                             />
                             <BottomNavigationItem
-                                label="About Me"
+                                label="关于博主"
                                 icon={aboutMeIcon}
                                 onTouchTap={() => this.buttonClickAction('about-me')}
                                 style={this.state.menuItemFontStyle}

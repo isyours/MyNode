@@ -8,7 +8,7 @@ import BlogMessageStore from '../stores/BlogMessageStore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentReply from 'material-ui/svg-icons/content/reply';
 import Divider from 'material-ui/Divider';
-import {FormattedNumber} from 'react-intl';
+import {FormattedDate} from 'react-intl';
 
 class BlogMessageBoard extends React.Component {
     constructor(props) {
@@ -63,10 +63,12 @@ class BlogMessageBoard extends React.Component {
                         <div>
                             <span>{messageItem.userName}</span>
                             <span style={{float: 'right'}}>
-                                <FormattedNumber value={messageItem.createTime}
-                                                 day="numeric"
-                                                 month="long"
-                                                 year="numeric"/>
+                                <FormattedDate
+                                    value={messageItem.createTime}
+                                    year='numeric'
+                                    month='long'
+                                    day='2-digit'
+                                />
                             </span>
                         </div>
                         <div>{messageItem.messageContent}</div>

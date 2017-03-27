@@ -48,10 +48,8 @@ class App extends React.Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
-                    <IntlProvider>
-                        <RouteHandler/>
-                        <Footer />
-                    </IntlProvider>
+                    <RouteHandler/>
+                    <Footer />
                 </div>
             </MuiThemeProvider>
         );

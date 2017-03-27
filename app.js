@@ -141,7 +141,9 @@ app.post('/upload', function(req, res) {
     }
 
     let uploadFile = req.files.data;
-    uploadFile.mv(config.uploadPicPath + uploadFile.name, function(err) {
+    let src = config.uploadPicPath + uploadFile.name;
+    console.log("current upload file name is ", src);
+    uploadFile.mv(src, function(err) {
         if (err) {
             return res.status(500).send(err);
         }
