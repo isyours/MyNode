@@ -13,7 +13,10 @@ class BlogMessageStore {
         this.blogMessageList = response.blogMessageList;
         this.setState({
             blogMessageList: this.blogMessageList,
-            needUpdate: false
+            needUpdate: false,
+            newMessage: {
+                blogId: response.blogId
+            }
         });
     }
 

@@ -10,6 +10,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import InfiniteScroll from 'react-infinite-scroller';
 import Navbar from './Navbar';
 import BlogSearchBar from './BlogSearchBar';
+import InfoLoading from './InfoLoading';
 import {StickyContainer, Sticky} from 'react-sticky';
 import {lightBlue500} from 'material-ui/styles/colors';
 
@@ -101,7 +102,10 @@ class Home extends React.Component {
                             pageStart={0}
                             loadMore={this.loadBlog.bind(this)}
                             hasMore={this.state.hasMoreBlog}
-                            loader={<div className="loader">Loading ...</div>}
+                            loader={
+                                <div className="loader">
+                                    <InfoLoading type='1'/>
+                                </div>}
                             useWindow={false}
                             className="col-sm-8 blog-main"
                         >

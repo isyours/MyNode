@@ -162,7 +162,8 @@ app.get('/api/blog/:blogId/message', function (req, res) {
         if (err) return next(err);
         console.info('Get Blog list, Result info', blogMsgList);
         return res.send({
-            blogMessageList: blogMsgList
+            blogMessageList: blogMsgList,
+            blogId: blogId
         });
     });
 });

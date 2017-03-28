@@ -17,6 +17,7 @@ class BlogMessageBoard extends React.Component {
         this.blogId = this.props.blogId;
         this.state = {
             needUpdate: true,
+            blogId: this.blogId,
             blogMessageList: [],
             userInfo: {},
             newMessage: {

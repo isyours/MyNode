@@ -5,6 +5,7 @@ import alt from '../alt';
 
 class BlogMessageActions {
     constructor() {
+        this.ajaxStatusIsBusy = false;
         this.generateActions(
             'getBlogMessageSuccess',
             'getBlogMessageFail',
@@ -14,6 +15,10 @@ class BlogMessageActions {
     }
 
     getBlogMessageByBlogId(blogId) {
+        if (this.ajaxStatusIsBusy) {
+            return;
+        }
+        this.ajaxStatusIsBusy = true;
         $.ajax({
             type: 'GET',
             url: '/api/blog/' + blogId + '/message'
@@ -23,10 +28,17 @@ class BlogMessageActions {
             })
             .fail((jqXhr) => {
                 this.actions.getBlogMessageFail(jqXhr.responseJSON.message);
+            })
+            .always((jqXhr) => {
+                this.ajaxStatusIsBusy = false;
             });
     }
 
     saveBlogMessage(blogMessage) {
+        if (this.ajaxStatusIsBusy) {
+            return;
+        }
+        this.ajaxStatusIsBusy = true;
         $.ajax({
             type: 'POST',
             url: '/api/blog-message',
@@ -38,6 +50,9 @@ class BlogMessageActions {
             })
             .fail((jqXhr) => {
                 this.actions.addBlogMessageFail(jqXhr.responseJSON.message);
+            })
+            .always((jqXhr) => {
+                this.ajaxStatusIsBusy = false;
             });
     }
 }

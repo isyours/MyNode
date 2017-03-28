@@ -24,10 +24,20 @@ class BlogDetail extends React.Component {
 
     componentDidMount() {
         BlogStore.listen(this.onChange);
+        $('#Circular')
+            .hide()  // Hide it initially
+            .ajaxStart(function() {
+                $(this).show();
+            })
+            .ajaxStop(function() {
+                $(this).hide();
+            })
+        ;
     }
 
     componentWillUnmount() {
         BlogStore.unlisten(this.onChange);
+        $('#Circular').off();
     }
 
     onChange(state) {
@@ -40,11 +50,9 @@ class BlogDetail extends React.Component {
         let styleInfo = {
             backgroundImage: 'url("' + backgroundUrl + '")',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            height: '100%',
-            width: '100%',
-            position: 'absolute',
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'fixed',
             zIndex: 1,
-            opacity: 0.5
         };
         let headerStyle = {
             margin: 0,
@@ -76,8 +84,7 @@ class BlogDetail extends React.Component {
                 </Headroom>
                 {
                     this.state.blogInfo && this.state.blogInfo.blogId ?
-                        <div>
-                            <div style={styleInfo}></div>
+                        <div style={styleInfo}>
                             <article className="container" style={{
                                 backgroundColor: 'rgba(211, 237, 208, 0.9)',
                                 height: '100%',
