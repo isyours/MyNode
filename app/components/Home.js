@@ -87,7 +87,7 @@ class Home extends React.Component {
                 <StickyContainer>
                     <div>
                         <div style={{ background: lightBlue500, position: 'absolute', width: '100%' }}>
-                            <div style={{backgroundImage: 'url("http://paullaros.nl/material-blog-1-1/img/travel/unsplash-1.jpg")',
+                            <div style={{backgroundImage: 'url("./img/unsplash-1.jpg")',
                                 backgroundPosition: 'center 30%', opacity: this.state.headerBackgroundOpacity,
                                 position: 'absolute', height: this.fromTop + 5, width: '100%' }}></div>
                             <div style={{paddingTop: this.fromTop - 50}}>
