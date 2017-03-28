@@ -21,6 +21,7 @@ class BlogMessageActions {
         this.ajaxStatusIsBusy = true;
         $.ajax({
             type: 'GET',
+            global: true,
             url: '/api/blog/' + blogId + '/message'
         })
             .done((response) => {
@@ -29,19 +30,23 @@ class BlogMessageActions {
             .fail((jqXhr) => {
                 this.actions.getBlogMessageFail(jqXhr.responseJSON.message);
             })
-            .always((jqXhr) => {
+            .always(function() {
                 this.ajaxStatusIsBusy = false;
-            });
+            }.bind(this));
     }
 
-    saveBlogMessage(blogMessage) {
+    saveBlogMessage(blogMessage, startFn, finishedFn) {
         if (this.ajaxStatusIsBusy) {
             return;
         }
         this.ajaxStatusIsBusy = true;
+        if (startFn) {
+            startFn.call();
+        }
         $.ajax({
             type: 'POST',
             url: '/api/blog-message',
+            global: true,
             data: {blogInfo: JSON.stringify(blogMessage)}
         })
             .done((data) => {
@@ -53,6 +58,9 @@ class BlogMessageActions {
             })
             .always((jqXhr) => {
                 this.ajaxStatusIsBusy = false;
+                if (finishedFn) {
+                    finishedFn.call();
+                }
             });
     }
 }

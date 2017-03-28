@@ -15,9 +15,13 @@ class BlogMessageStore {
             blogMessageList: this.blogMessageList,
             needUpdate: false,
             newMessage: {
-                blogId: response.blogId
+                blogId: response.blogId,
+                userName: '',
+                email: '',
+                messageContent: ''
             }
         });
+        $('#_message_board_list').hide();
     }
 
     onGetBlogMessageFail(errorMessage) {

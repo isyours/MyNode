@@ -105,6 +105,7 @@ class Home extends React.Component {
                             loader={
                                 <div className="loader">
                                     <InfoLoading type='1'/>
+                                    内容加载中...
                                 </div>}
                             useWindow={false}
                             className="col-sm-8 blog-main"

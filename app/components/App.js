@@ -8,7 +8,6 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {RouteHandler} from 'react-router';
 import Footer from './Footer';
 import ExecutionEnvironment from 'exenv';
-import InfoLoading from './InfoLoading';
 import { IntlProvider } from 'react-intl';
 
 
@@ -49,9 +48,6 @@ class App extends React.Component {
         return (
             <MuiThemeProvider muiTheme={muiTheme}>
                 <div>
-                    <div style={{display: 'none'}}>
-                        <InfoLoading id="Circular" type='1' />
-                    </div>
                     <RouteHandler/>
                     <Footer />
                 </div>
