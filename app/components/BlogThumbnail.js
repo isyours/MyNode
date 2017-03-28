@@ -15,7 +15,7 @@ class BlogThumbnail extends React.Component {
         this.state = {
             shadow: 1,
         };
-        this.blogItem.picLink = this.blogItem.picLink ? this.blogItem.picLink:
+        this.blogItem.blogBackground = this.blogItem.blogBackground ? this.blogItem.blogBackground:
             "http://paullaros.nl/material-blog-1-1/img/travel/unsplash-2.jpg";
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseOut = this.onMouseOut.bind(this);
@@ -30,6 +30,7 @@ class BlogThumbnail extends React.Component {
     }
 
     render() {
+        console.log("current blog info is ", this.blogItem);
         return (
             <Link key={this.blogItem.blogId} to='blogDetail' params={{blogTitle: this.blogItem.blogTitle}}  style={{textDecoration: 'none', color: 'black'}}>
             <Card
@@ -40,7 +41,7 @@ class BlogThumbnail extends React.Component {
                 <CardTitle title={this.blogItem.blogName} style={{height: "30%", position: "inherit"}} />
                 <BlogTag blogTags={this.blogItem.blogTags}/>
                 <CardMedia style={{height: "40%", position: "inherit"}} >
-                    <img src = {this.blogItem.picLink} />
+                    <img src = {this.blogItem.blogBackground} />
                 </CardMedia>
                 <CardText style={{height: "30%", position: "inherit"}}>
                     {this.blogItem.blogBrief}

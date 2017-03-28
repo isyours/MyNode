@@ -9,6 +9,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentReply from 'material-ui/svg-icons/content/reply';
 import Divider from 'material-ui/Divider';
 import {FormattedDate} from 'react-intl';
+import FlatButton from 'material-ui/FlatButton';
 
 class BlogMessageBoard extends React.Component {
     constructor(props) {
@@ -133,7 +134,9 @@ class BlogMessageBoard extends React.Component {
                                    multiLine={true}
                                    rows={2}/>
                     </div>
-                    <div><button onClick={this.submitMessage}>提交</button></div>
+                    <div>
+                        <FlatButton label="提交" onClick={this.submitMessage} primary={true} />
+                    </div>
                 </div>
             </div>
         );

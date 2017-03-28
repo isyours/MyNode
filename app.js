@@ -115,6 +115,7 @@ app.post('/api/blog', function(req, res, next) {
                     createTime: gender.createTime,
                     updateTime: gender.updateTime,
                     blogTags: gender.blogTags,
+                    blogBrief: gender.blogBrief,
                     blogBackground: gender.blogBackground,
                     blogMarkdownContent: gender.blogMarkdownContent,
                 });

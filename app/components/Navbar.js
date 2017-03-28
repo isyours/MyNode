@@ -1,7 +1,5 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ContentAdd from 'material-ui/svg-icons/content/add';
 import { Link } from 'react-router';
 import {lightBlue500, grey200, black, white} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
@@ -115,11 +113,7 @@ class Navbar extends React.Component {
                         </BottomNavigation>
                     }
                     iconElementRight={
-                        <Link key={'create_new_btn'} to='/edit/blog'>
-                            <FloatingActionButton style={{marginRight: 20, boxShadow: "none"}} mini={true}>
-                                <ContentAdd />
-                            </FloatingActionButton>
-                        </Link>
+                        <div></div>
                     }
                 />
             </div>
