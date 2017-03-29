@@ -8,6 +8,7 @@ import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigati
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
+        this.type = this.props.type ? this.props.type: 'auto';
         this._darkIconStyle = {
             fontSize: 24,
             color: black,
@@ -17,16 +18,39 @@ class Navbar extends React.Component {
             fontSize: 24,
             color: white
         };
+        this._changeFlag = true;
+        if (this.type !== 'auto') {
+            this._changeFlag = false;
+        }
+
+        this.onTopChangeHandler = this.onTopChangeHandler.bind(this);
+        this.buttonClickAction = this.buttonClickAction.bind(this);
+        this.getStyleConfig = this.getStyleConfig.bind(this);
+
+        let styleConfig = this.getStyleConfig(this.type);
         this.state = {
             open: false,
+            styleConfig: styleConfig
+        };
+        this.token = null;
+    }
+
+    getStyleConfig(type) {
+        let ret = {
             background: 'none',
             menuBackground: grey200,
             iconStyle: this._darkIconStyle,
             menuItemFontStyle: this._darkIconStyle
         };
-        this.token = null;
-        this.onTopChangeHandler = this.onTopChangeHandler.bind(this);
-        this.buttonClickAction = this.buttonClickAction.bind(this);
+        if (type === 'light') {
+            ret = {
+                background: lightBlue500,
+                menuBackground: lightBlue500,
+                iconStyle: this._lightIconStyle,
+                menuItemFontStyle: this._lightIconStyle
+            };
+        }
+        return ret;
     }
 
     handleToggle() {
@@ -51,21 +75,14 @@ class Navbar extends React.Component {
         if (!topic || 'TOP_CHANGE_EVENT' !== topic) {
             return;
         }
-        let backgroundColorVal = lightBlue500;
-        let menuBackgroundColorVal = lightBlue500;
-        let iconStyle = this._lightIconStyle;
-        let menuItemFontStyle = this._lightIconStyle;
-        if (data < 250) {
-            backgroundColorVal = 'none';
-            menuBackgroundColorVal = grey200;
-            iconStyle = this._darkIconStyle;
-            menuItemFontStyle = this._darkIconStyle;
+        let styleConfig;
+        if (data < 250 && this._changeFlag) {
+            styleConfig = this.getStyleConfig('dark');
+        } else {
+            styleConfig = this.getStyleConfig('light');
         }
         this.setState({
-            background: backgroundColorVal,
-            menuBackground: menuBackgroundColorVal,
-            iconStyle: iconStyle,
-            menuItemFontStyle: menuItemFontStyle
+            styleConfig: styleConfig
         });
     }
 
@@ -79,36 +96,36 @@ class Navbar extends React.Component {
 
     render() {
 
-        const blogIcon = <FontIcon className="material-icons" style={this.state.iconStyle}>book</FontIcon>;
-        const experimentalIcon = <FontIcon className="material-icons" style={this.state.iconStyle}>build</FontIcon>;
-        const aboutMeIcon = <FontIcon className="material-icons" style={this.state.iconStyle}>face</FontIcon>;
+        const blogIcon = <FontIcon className="material-icons" style={this.state.styleConfig.iconStyle}>book</FontIcon>;
+        const experimentalIcon = <FontIcon className="material-icons" style={this.state.styleConfig.iconStyle}>build</FontIcon>;
+        const aboutMeIcon = <FontIcon className="material-icons" style={this.state.styleConfig.iconStyle}>face</FontIcon>;
 
         return (
             <div>
                 <AppBar
                     className="container"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"
-                    style={{boxShadow: "none", background: this.state.background}}
+                    style={{boxShadow: "none", background: this.state.styleConfig.background}}
                     iconElementLeft={
                         <BottomNavigation selectedIndex={this.state.selectedIndex} style={{height: 54,
-                            background: this.state.menuBackground}}>
+                            background: this.state.styleConfig.menuBackground}}>
                             <BottomNavigationItem
                                 label="博客散文"
                                 icon={blogIcon}
                                 onTouchTap={() => this.buttonClickAction('blog-btn')}
-                                style={this.state.menuItemFontStyle}
+                                style={this.state.styleConfig.menuItemFontStyle}
                             />
                             <BottomNavigationItem
                                 label="IT实验室"
                                 icon={experimentalIcon}
                                 onTouchTap={() => this.buttonClickAction('experimental')}
-                                style={this.state.menuItemFontStyle}
+                                style={this.state.styleConfig.menuItemFontStyle}
                             />
                             <BottomNavigationItem
                                 label="关于博主"
                                 icon={aboutMeIcon}
                                 onTouchTap={() => this.buttonClickAction('about-me')}
-                                style={this.state.menuItemFontStyle}
+                                style={this.state.styleConfig.menuItemFontStyle}
                             />
                         </BottomNavigation>
                     }

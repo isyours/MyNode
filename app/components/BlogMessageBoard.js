@@ -68,6 +68,7 @@ class BlogMessageBoard extends React.Component {
                         <Divider style={{backgroundColor: '#b4dcae', margin: '15px 0px 15px'}}/>
                         <div>
                             <span>{messageItem.userName}</span>
+                            <span> 说：</span>
                             <span style={{float: 'right'}}>
                                 <FormattedDate
                                     value={messageItem.createTime}

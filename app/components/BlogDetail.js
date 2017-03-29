@@ -80,7 +80,7 @@ class BlogDetail extends React.Component {
                         zIndex: 999
                     }}
                 >
-                    <Navbar />
+                    <Navbar type='light' />
                 </Headroom>
                 {
                     this.state.blogInfo && this.state.blogInfo.blogId ?

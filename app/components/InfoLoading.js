@@ -10,7 +10,6 @@ class InfoLoading extends React.Component {
         super(props);
         this.viewType = this.props.type ? this.props.type: '1';
         this.completed = this.props.completed ? this.props.completed: 0;
-        console.log('current loading type is', this.viewType);
         this.state = {
             type: this.viewType,
             completed: this.completed

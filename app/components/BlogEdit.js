@@ -23,13 +23,10 @@ class BlogEdit extends React.Component {
         this.focus = () => this.refs.editor.focus();
         this.submit = () => {
             let htmlContent = stateToHTML(this.state.editorState.getCurrentContent());
-            console.log("====================================");
-            console.log(htmlContent);
             this.state.blogInfo.blogContent = htmlContent;
             let currentTime = new Date();
             this.state.blogInfo.updateTime = currentTime;
             this.state.blogInfo.createTime = currentTime;
-            console.log("********************", this.state);
             BlogActions.addBlog(this.state.blogInfo);
         };
         this.onChange = (editorState) => this.setState({editorState});

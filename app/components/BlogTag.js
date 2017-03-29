@@ -6,7 +6,6 @@ import React from 'react';
 class BlogTag extends React.Component {
     constructor(props) {
         super(props);
-        console.log("=============", this.props);
         this.state = {
             blogTags: this.props.blogTags
         }

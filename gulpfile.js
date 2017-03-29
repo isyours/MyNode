@@ -55,8 +55,7 @@ gulp.task('vendor', function() {
         'bower_components/lodash/dist/mapping.fp.js',
         'bower_components/toastr/toastr.js',
         'bower_components/PubSubJS/src/pubsub.js',
-        'bower_components/showdown/dist/showdown.min.js',
-        'node_modules/codemirror/mode/markdown/markdown.js'
+        'bower_components/showdown/dist/showdown.min.js'
     ]).pipe(concat('vendor.js'))
         .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
         .pipe(gulp.dest('public/js'));

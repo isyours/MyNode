@@ -30,7 +30,6 @@ class BlogThumbnail extends React.Component {
     }
 
     render() {
-        console.log("current blog info is ", this.blogItem);
         return (
             <Link key={this.blogItem.blogId} to='blogDetail' params={{blogTitle: this.blogItem.blogTitle}}  style={{textDecoration: 'none', color: 'black'}}>
             <Card
