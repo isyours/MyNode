@@ -60,7 +60,7 @@
     "gulp-less": "^3.0.3",
     "gulp-plumber": "^1.0.1",
     "gulp-streamify": "0.0.5",
-    "gulp-uglify": "^1.2.0",
+    "gulp-uglify": "^2.1.2",
     "gulp-util": "^3.0.6",
     "init-env": "0.0.7",
     "vinyl-source-stream": "^1.1.0",
