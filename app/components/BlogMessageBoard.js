@@ -2,15 +2,17 @@
  * Created by chenhaolong on 2017/3/17.
  */
 import React from 'react';
-import TextField from 'material-ui/TextField';
 import BlogMessageActions from '../actions/BlogMessageActions';
 import BlogMessageStore from '../stores/BlogMessageStore';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentReply from 'material-ui/svg-icons/content/reply';
 import Divider from 'material-ui/Divider';
 import {FormattedDate} from 'react-intl';
-import FlatButton from 'material-ui/FlatButton';
 import InfoLoading from './InfoLoading';
+import RaisedButton from 'material-ui/RaisedButton';
+import Formsy from 'formsy-react';
+import { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup,
+    FormsySelect, FormsyText, FormsyTime, FormsyToggle, FormsyAutoComplete } from 'formsy-material-ui/lib';
 
 class BlogMessageBoard extends React.Component {
     constructor(props) {
@@ -23,13 +25,16 @@ class BlogMessageBoard extends React.Component {
             userInfo: {},
             newMessage: {
                 blogId: this.blogId
-            }
+            },
+            canSubmit: false
         };
         BlogMessageActions.getBlogMessageByBlogId(this.blogId);
         this.onChange = this.onChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.submitMessage = this.submitMessage.bind(this);
         this.replyBtnClick = this.replyBtnClick.bind(this);
+        this.enableButton = this.enableButton.bind(this);
+        this.disableButton = this.disableButton.bind(this);
     }
 
     componentDidMount() {
@@ -40,6 +45,22 @@ class BlogMessageBoard extends React.Component {
 
     componentWillUnmount() {
         BlogMessageStore.unlisten(this.onChange);
+    }
+
+    enableButton() {
+        this.setState({
+            canSubmit: true,
+        });
+    }
+
+    disableButton() {
+        this.setState({
+            canSubmit: false,
+        });
+    }
+
+    notifyFormError(data) {
+        console.error('Form error:', data);
     }
 
     onChange(state) {
@@ -67,7 +88,7 @@ class BlogMessageBoard extends React.Component {
                     <div style={{padding: 5}}>
                         <Divider style={{backgroundColor: '#b4dcae', margin: '15px 0px 15px'}}/>
                         <div>
-                            <span>{messageItem.userName}</span>
+                            <span><i>{messageItem.userName}</i></span>
                             <span> 说：</span>
                             <span style={{float: 'right'}}>
                                 <FormattedDate
@@ -150,26 +171,60 @@ class BlogMessageBoard extends React.Component {
                 </div>
                 <div style={{marginTop: 10, padding: 10, background: "#faffbd"}}>
                     <h1>请给我留言</h1>
-                    <div>
-                        <TextField hintText="UserName" defaultValue={this.state.newMessage.userName}
-                                   floatingLabelText="UserName"
-                                   name="userName" onChange={this.handleInputChange}/>
-                    </div>
-                    <div>
-                        <TextField hintText="Email" defaultValue={this.state.newMessage.email}
-                                   floatingLabelText="Email"
-                                   name="text" onChange={this.handleInputChange}/>
-                    </div>
-                    <div>
-                        <TextField hintText="Message Content" defaultValue={this.state.newMessage.messageContent}
-                                   floatingLabelText="Message Content"
-                                   name="messageContent" onChange={this.handleInputChange}
-                                   multiLine={true}
-                                   rows={2}/>
-                    </div>
-                    <div>
-                        <FlatButton label="提交" onClick={this.submitMessage} primary={true} />
-                    </div>
+                    <Formsy.Form
+                        onValid={this.enableButton}
+                        onInvalid={this.disableButton}
+                        onValidSubmit={this.submitMessage}
+                        onInvalidSubmit={this.notifyFormError}
+                    >
+                        <div>
+                            <FormsyText
+                                name="userName"
+                                validations="isWords"
+                                validationError={"English only"}
+                                required
+                                hintText="您的昵称？"
+                                floatingLabelText="昵称"
+                                value={this.state.newMessage.userName}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <FormsyText
+                                name="email"
+                                validations="isEmail"
+                                validationError={"Email pattern is illegal, @ is needed"}
+                                required
+                                hintText="Email"
+                                floatingLabelText="Email"
+                                updateImmediately
+                                value={this.state.newMessage.email}
+                                onChange={this.handleInputChange}
+                            />
+                        </div>
+                        <div>
+                            <FormsyText
+                                name="messageContent"
+                                validationError={"必填内容"}
+                                required
+                                hintText="留言内容"
+                                floatingLabelText="请输入留言内容"
+                                value={this.state.newMessage.messageContent}
+                                onChange={this.handleInputChange}
+                                multiLine={true}
+                                rows={2}
+                            />
+                        </div>
+                        <div>
+                            <RaisedButton
+                                style={{marginTop: 32}}
+                                type="submit"
+                                label="提交"
+                                disabled={!this.state.canSubmit}
+                                primary={true}
+                            />
+                        </div>
+                    </Formsy.Form>
                 </div>
             </div>
         );
