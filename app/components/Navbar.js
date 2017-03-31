@@ -3,12 +3,13 @@ import AppBar from 'material-ui/AppBar';
 import { Link } from 'react-router';
 import {lightBlue500, grey200, black, white} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
+import RealTimeClient from './RealTimeClient';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
 
 class Navbar extends React.Component {
     constructor(props) {
         super(props);
-        this.type = this.props.type ? this.props.type: 'auto';
+        let outerType = this.props.type ? this.props.type: 'auto';
         this._darkIconStyle = {
             fontSize: 24,
             color: black,
@@ -19,7 +20,7 @@ class Navbar extends React.Component {
             color: white
         };
         this._changeFlag = true;
-        if (this.type !== 'auto') {
+        if (outerType !== 'auto') {
             this._changeFlag = false;
         }
 
@@ -27,7 +28,7 @@ class Navbar extends React.Component {
         this.buttonClickAction = this.buttonClickAction.bind(this);
         this.getStyleConfig = this.getStyleConfig.bind(this);
 
-        let styleConfig = this.getStyleConfig(this.type);
+        let styleConfig = this.getStyleConfig(outerType);
         this.state = {
             open: false,
             styleConfig: styleConfig
@@ -102,6 +103,7 @@ class Navbar extends React.Component {
 
         return (
             <div>
+                <RealTimeClient />
                 <AppBar
                     className="container"
                     iconClassNameRight="muidocs-icon-navigation-expand-more"

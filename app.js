@@ -34,6 +34,8 @@ mongoose.connection.on('error', function() {
 });
 
 var app = express();
+var http = require('http').Server(app);
+var websocket = require('socket.io')(http);
 
 app.set('port', process.evn.PORT || 3000);
 app.use(logger('dev'));
@@ -208,13 +210,26 @@ app.post('/api/blog-message', function(req, res, next) {
 
 app.use(function(req, res) {
     Router.run(routes, '/', function(Handler) {
-        var ComponentFactory = React.createFactory(Handler);
-        var html = ReactDOMServer.renderToString(ComponentFactory());
-        var page = swig.renderFile('views/index.html', { html: html });
+        // var ComponentFactory = React.createFactory(Handler);
+        // var html = ReactDOMServer.renderToString(ComponentFactory());
+        // var page = swig.renderFile('views/index.html', { html: html });
+        var page = swig.renderFile('views/index.html');
         res.send(page);
     });
 });
 
-app.listen(app.get('port'), function () {
+http.listen(app.get('port'), function () {
     console.log('Express server listening on port ' + app.get('port'));
+});
+
+var onlineUserCounter = 0;
+
+websocket.on('connection', function(socket) {
+    console.log('================ a user connected ========================');
+    onlineUserCounter++;
+    socket.emit('currentUserNum', onlineUserCounter);
+    socket.on('disconnect', function(){
+        console.log('user disconnected');
+        onlineUserCounter--;
+    });
 });
