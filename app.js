@@ -236,8 +236,7 @@ websocket.on('connection', function(socket) {
                 console.log('save visit login info fail', err);
             }
             let currentTime = new Date();
-            console.log(' --------------- ti ========', currentTime.getTime() - latestVisitMsg[0].createTime.getTime());
-            if (!latestVisitMsg || !latestVisitMsg[0].createTime
+            if (!latestVisitMsg || !latestVisitMsg[0] || !latestVisitMsg[0].createTime
                 || currentTime.getTime() - latestVisitMsg[0].createTime.getTime() > 600000) {
                 let visitorInfo = new VisitorInfo({
                     infoId: address + '_' + currentTime.getTime(),
