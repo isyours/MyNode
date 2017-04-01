@@ -224,7 +224,7 @@ http.listen(app.get('port'), function () {
 var onlineUserCounter = 0;
 
 websocket.on('connection', function(socket) {
-    let address = socket.handshake.address;
+    let address = socket.handshake.headers['x-forward-for'];
     console.log('user connected ', address);
     onlineUserCounter++;
     websocket.sockets.emit('currentVisitorNum', onlineUserCounter);
