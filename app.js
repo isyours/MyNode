@@ -259,7 +259,7 @@ websocket.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function(){
-        let address = socket.handshake.address;
+        let address = socket.handshake.headers['x-forward-for'];
         console.log('user disconnected ', address);
         onlineUserCounter--;
         websocket.sockets.emit('currentVisitorNum', onlineUserCounter);
