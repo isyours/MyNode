@@ -6,9 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var swig  = require('swig');
-var React = require('react');
 var Router = require('react-router');
-var ReactDOMServer = require('react-dom/server');
 var routes = require('./app/routes');
 
 var mongoose = require('mongoose');
@@ -20,6 +18,7 @@ var fileUpload = require('express-fileupload');
 
 var Blog = require('./models/blog');
 var BlogMessage = require('./models/blogMessage');
+var VisitorInfo = require('./models/totalVisitorCount');
 
 process.evn = require('init-env')({
     logToConsole: true,
@@ -225,11 +224,68 @@ http.listen(app.get('port'), function () {
 var onlineUserCounter = 0;
 
 websocket.on('connection', function(socket) {
-    console.log('================ a user connected ========================');
+    let address = socket.handshake.address;
+    console.log('user connected ', address);
     onlineUserCounter++;
-    socket.emit('currentUserNum', onlineUserCounter);
+    websocket.sockets.emit('currentVisitorNum', onlineUserCounter);
+
+    VisitorInfo.find({visitorIp: address}).sort({createTime: 'desc'})
+        .limit(1)
+        .exec(function (err, latestVisitMsg) {
+            if (err) {
+                console.log('save visit login info fail', err);
+            }
+            let currentTime = new Date();
+            console.log(' --------------- ti ========', currentTime.getTime() - latestVisitMsg[0].createTime.getTime());
+            if (!latestVisitMsg || !latestVisitMsg[0].createTime
+                || currentTime.getTime() - latestVisitMsg[0].createTime.getTime() > 600000) {
+                let visitorInfo = new VisitorInfo({
+                    infoId: address + '_' + currentTime.getTime(),
+                    visitorIp: address,
+                    createTime: currentTime,
+                    action: 'login',
+                    detailActions: {}
+                });
+                visitorInfo.save(function(err) {
+                    console.log('save visit login record fail', err);
+                });
+            }
+        });
+
+    VisitorInfo.count({action: 'login'}).exec(function (err, number) {
+        if (err) {
+            console.log('save visit count info fail', err);
+        }
+        socket.emit('totalVisitorRank', number);
+    });
+
     socket.on('disconnect', function(){
-        console.log('user disconnected');
+        let address = socket.handshake.address;
+        console.log('user disconnected ', address);
         onlineUserCounter--;
+        websocket.sockets.emit('currentVisitorNum', onlineUserCounter);
+        VisitorInfo.find({visitorIp: address}).sort({createTime: 'desc'})
+            .limit(1)
+            .exec(function (err, latestVisitMsg) {
+                if (err) {
+                    console.log('save visit logout info fail', err);
+                }
+                let currentTime = new Date();
+                if (!latestVisitMsg || !latestVisitMsg.createTime
+                    || currentTime.getTime() - latestVisitMsg.createTime.getTime() > 60000) {
+                    let visitorInfo = new VisitorInfo({
+                        infoId: address + '_' + currentTime.getTime(),
+                        visitorIp: address,
+                        createTime: currentTime,
+                        action: 'logout',
+                        detailActions: {}
+                    });
+                    visitorInfo.save(function(err) {
+                        if (err) {
+                            console.log('save logout fail', err);
+                        }
+                    });
+                }
+            });
     });
 });

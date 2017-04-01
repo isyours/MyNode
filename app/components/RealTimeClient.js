@@ -7,20 +7,48 @@ import SocketIOClient from 'socket.io-client';
 class RealTimeClient extends React.Component {
     constructor(props) {
         super(props);
-        this.onReceivedMessage = this.onReceivedMessage.bind(this);
+        this.onReceivedVisitorStatus = this.onReceivedVisitorStatus.bind(this);
+        this.onReceivedRankStatus = this.onReceivedRankStatus.bind(this);
         if (window) {
             this.socket = SocketIOClient(window.location.href);
-            this.socket.on('currentUserNum', this.onReceivedMessage);
+            this.socket.on('currentVisitorNum', this.onReceivedVisitorStatus);
+            this.socket.on('totalVisitorRank', this.onReceivedRankStatus);
         }
+        this.state = {
+            currentVisitorNum: 0,
+            totalVisitorNum: 0
+        };
     }
 
-    onReceivedMessage(messages) {
-        console.log('receive message from server ', messages);
+    onReceivedVisitorStatus(response) {
+        if (!response) {
+            return;
+        }
+        this.setState({
+            currentVisitorNum: response
+        });
+    }
+
+    onReceivedRankStatus(response) {
+        if (!response) {
+            return;
+        }
+        this.setState({
+            totalVisitorNum: response
+        });
     }
 
     render() {
         return (
-            <div></div>
+            <div>
+                <div>
+                    <span>当前在线访客：</span>
+                    <span>{this.state.currentVisitorNum}</span>
+                </div>
+                <div>
+                    <span>您是第{this.state.totalVisitorNum}位访客</span>
+                </div>
+            </div>
         );
     }
 }

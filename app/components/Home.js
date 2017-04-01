@@ -11,6 +11,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import Navbar from './Navbar';
 import BlogSearchBar from './BlogSearchBar';
 import InfoLoading from './InfoLoading';
+import RealTimeClient from './RealTimeClient';
 import {StickyContainer, Sticky} from 'react-sticky';
 import {lightBlue500} from 'material-ui/styles/colors';
 
@@ -52,14 +53,11 @@ class Home extends React.Component {
             return;
         }
         let opacity;
-        // console.log("current data is ", data);
-        // console.log("current from top is ", this.fromTop);
         if (data < this.fromTop) {
             opacity = 1 - data / this.fromTop;
         } else {
             opacity = 0;
         }
-        // console.log("current opacity is ", opacity);
         let updateTrigger = Math.floor(opacity * 100);
         if (updateTrigger % 2 === 0) {
             this.setState({
@@ -98,6 +96,12 @@ class Home extends React.Component {
                         </div>
                     </div>
                     <div className="container" style={{height: "100%", paddingTop: this.fromTop + 30, overflow: "auto"}} >
+                        <div className="col-sm-3 col-sm-offset-1">
+                            <div>
+                                <RealTimeClient />
+                                <BlogSearchBar/>
+                            </div>
+                        </div>
                         <InfiniteScroll
                             pageStart={0}
                             loadMore={this.loadBlog.bind(this)}
@@ -112,9 +116,6 @@ class Home extends React.Component {
                         >
                             {blogListContent}
                         </InfiniteScroll>
-                        <div className="col-sm-3 col-sm-offset-1">
-                            <div><BlogSearchBar/></div>
-                        </div>
                     </div>
                 </StickyContainer>
             </div>
