@@ -5,6 +5,7 @@ import React from 'react';
 import {Link} from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import BlogTag from './BlogTag';
+import {FormattedDate} from 'react-intl';
 
 
 class BlogThumbnail extends React.Component {
@@ -38,7 +39,18 @@ class BlogThumbnail extends React.Component {
                 zDepth={this.state.shadow}
                 style={{width: "90%", zIndex: 100, marginBottom: 15}}>
                 <CardTitle title={this.blogItem.blogName} style={{height: "30%", position: "inherit"}} />
+                <div>
+                    <span style={{float: 'right', paddingRight: 10, fontWeight: 'bold'}}>
+                        <FormattedDate
+                            value={this.blogItem.updateTime}
+                            year='numeric'
+                            month='long'
+                            day='2-digit'
+                        />
+                    </span>
+                </div>
                 <BlogTag blogTags={this.blogItem.blogTags}/>
+
                 <CardMedia style={{height: "40%", position: "inherit"}} >
                     <img src = {this.blogItem.blogBackground} />
                 </CardMedia>

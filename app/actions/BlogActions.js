@@ -13,7 +13,9 @@ class BlogActions {
             'addBlogSuccess',
             'addBlogFail',
             'getBlogSuccess',
-            'getBlogFail'
+            'getBlogFail',
+            'searchBlogByKeyWordsSuccess',
+            'searchBlogByKeyWordsFail'
         );
     }
 
@@ -41,6 +43,25 @@ class BlogActions {
             })
             .fail((jqXhr) => {
                 this.actions.getBlogFail(jqXhr.responseJSON.message);
+            });
+    }
+
+    searchBlogByKeyWords(keyWords) {
+        if (!keyWords) {
+            return;
+        }
+        if (!String(keyWords).replace(/^\s+|\s+$/gm,'')) {
+            return;
+        }
+        $.ajax({
+            type: 'GET',
+            url: '/api/blog/search/' + keyWords
+        })
+            .done((response) => {
+                this.actions.searchBlogByKeyWordsSuccess(response);
+            })
+            .fail((jqXhr) => {
+                this.actions.searchBlogByKeyWordsFail(jqXhr.responseJSON.message);
             });
     }
 }

@@ -157,7 +157,7 @@ app.post('/upload', function(req, res) {
  * Get message list by blogId
  */
 app.get('/api/blog/:blogId/message', function (req, res) {
-    var blogId = req.params.blogId + '';
+    let blogId = req.params.blogId + '';
     BlogMessage.find({blogId: blogId}).sort({createTime: 'desc'}).exec(function (err, blogMsgList) {
         console.info('Get Blog list, Error info', err);
         if (err) return next(err);
@@ -166,6 +166,28 @@ app.get('/api/blog/:blogId/message', function (req, res) {
             blogMessageList: blogMsgList,
             blogId: blogId
         });
+    });
+});
+
+app.get('/api/blog/search/:query', function (req, res) {
+    let query = decodeURI(req.params.query) + '';
+    console.log('查询关键字', query);
+    let regExpression = new RegExp(query, 'i');
+    console.log('reg express is', regExpression);
+    Blog.find(
+        {
+            $or : [ //多条件，数组
+                {blogName : {$regex : regExpression}},
+                {blogContent : {$regex : regExpression}}
+            ]
+        })
+        .sort({createTime: 'desc'}).exec(function (err, blogMsgList) {
+            console.info('Get Fuzzy  Blog list, Error info', err);
+            if (err) return next(err);
+            console.info('Get Blog list, Result info', blogMsgList);
+            return res.status(200).send({
+                blogMessageList: blogMsgList
+            });
     });
 });
 

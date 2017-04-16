@@ -29,6 +29,24 @@ class BlogStore {
     onGetBlogFail(errorMessage) {
         this.helpBlock = errorMessage;
     }
+
+    onSearchBlogByKeyWordsSuccess(response) {
+        if (!(response.blogMessageList instanceof Array)) {
+            console.log('response is', response);
+            return;
+        }
+        let responseDataSource = response.blogMessageList.map(function (item) {
+            return {text: item.blogName, value: item.blogTitle};
+        });
+        this.setState({
+            dataSource: responseDataSource,
+            blogList: response.blogMessageList
+        });
+    }
+
+    onSearchBlogByKeyWordsFail(errorMessage) {
+        this.helpBlock = errorMessage;
+    }
 }
 
 export default alt.createStore(BlogStore);

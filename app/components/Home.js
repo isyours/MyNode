@@ -14,6 +14,7 @@ import InfoLoading from './InfoLoading';
 import RealTimeClient from './RealTimeClient';
 import {StickyContainer, Sticky} from 'react-sticky';
 import {lightBlue500} from 'material-ui/styles/colors';
+import BlogStore from '../stores/BlogStore';
 
 
 class Home extends React.Component {
@@ -30,11 +31,13 @@ class Home extends React.Component {
 
     componentDidMount() {
         HomeStore.listen(this.onChange);
+        BlogStore.listen(this.onChange);
         this.token = PubSub.subscribe('TOP_CHANGE_EVENT', this.onTopChangeHandler)
     }
 
     componentWillUnmount() {
         HomeStore.unlisten(this.onChange);
+        BlogStore.unlisten(this.onChange);
         if (this.token) {
             PubSub.unsubscribe(this.token);
         }
@@ -85,7 +88,7 @@ class Home extends React.Component {
                 <StickyContainer>
                     <div>
                         <div style={{ background: lightBlue500, position: 'absolute', width: '100%' }}>
-                            <div style={{backgroundImage: 'url("./img/unsplash-1.jpg")',
+                            <div style={{backgroundImage: 'url("./img/unsplash-1.jpg?v=20170416")',
                                 backgroundPosition: 'center 30%', opacity: this.state.headerBackgroundOpacity,
                                 position: 'absolute', height: this.fromTop + 5, width: '100%' }}></div>
                             <div style={{paddingTop: this.fromTop - 50}}>

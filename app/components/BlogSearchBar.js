@@ -3,24 +3,45 @@
  */
 import React from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
+import BlogActions from '../actions/BlogActions';
+import BlogStore from '../stores/BlogStore';
 
 class BlogSearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.handleUpdateInput = this.handleUpdateInput.bind(this);
+        this.onAutoCompleteClose = this.onAutoCompleteClose.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.state = {
-            dataSource: []
+            dataSource: [],
+            searchText: ''
         };
     }
 
     handleUpdateInput(value) {
+        BlogActions.searchBlogByKeyWords(value);
         this.setState({
-            dataSource: [
-                value,
-                value + value,
-                value + value + value,
-            ],
+            searchText: value,
         });
+    }
+
+    componentDidMount() {
+        BlogStore.listen(this.onChange);
+    }
+
+    componentWillUnmount() {
+        BlogStore.unlisten(this.onChange);
+    }
+
+    onChange(state) {
+        this.setState(state);
+    }
+
+    onAutoCompleteClose() {
+        console.log('list is ', this.state.blogList);
+        if (this.state && this.state.blogList && this.state.blogList.length === 1) {
+            window.location.href = '/blog/' + this.state.blogList[0].blogTitle;
+        }
     }
 
     render() {
@@ -30,6 +51,9 @@ class BlogSearchBar extends React.Component {
                 dataSource={this.state.dataSource}
                 floatingLabelText="Search"
                 onUpdateInput={this.handleUpdateInput}
+                dataSourceConfig={{text: 'text', value: 'value'}}
+                searchText={this.state.searchText}
+                onClose={this.onAutoCompleteClose}
             />
         );
     }
