@@ -39,6 +39,21 @@ var dependencies = [
     'react-intl'
 ];
 
+gulp.task('loading', function() {
+    return gulp.src([
+        'bower_components/nprogress/nprogress.js'
+    ]).pipe(concat('loading.js'))
+        .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
+        .pipe(gulp.dest('public/js'));
+});
+
+gulp.task('loading-css', function() {
+    return gulp.src([
+        'bower_components/nprogress/nprogress.css'
+    ]).pipe(changed('public/css'))
+        .pipe(gulp.dest('public/css'));
+});
+
 /*
  |--------------------------------------------------------------------------
  | Combine all JS libraries into a single file for fewer HTTP requests.
@@ -154,5 +169,5 @@ gulp.task('watch', function() {
     gulp.watch('app/stylesheets/**/*.less', ['styles']);
 });
 
-gulp.task('default', ['styles', 'materialUi', 'vendor', 'browserify-watch', 'watch']);
-gulp.task('build', ['styles', 'materialUi', 'vendor', 'browserify']);
+gulp.task('default', ['styles', 'materialUi', 'vendor', 'loading', 'loading-css', 'browserify-watch', 'watch']);
+gulp.task('build', ['styles', 'materialUi', 'vendor', 'loading', 'loading-css', 'browserify']);
