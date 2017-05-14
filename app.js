@@ -23,7 +23,7 @@ var VisitorInfo = require('./models/totalVisitorCount');
 process.evn = require('init-env')({
     logToConsole: true,
     jsonPath: 'config.envVars',
-    filePath: './config/.env.json',
+    filePath: './config/.env.json.json',
     overwrite: true
 });
 
