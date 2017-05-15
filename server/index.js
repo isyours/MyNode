@@ -6,6 +6,7 @@
 
 const path = require('path');
 const development = require('./env/development');
+const production = require('./env/production');
 
 const notifier = {
     service: 'postmark',
@@ -26,5 +27,6 @@ const defaults = {
  */
 
 module.exports = {
-    development: Object.assign({}, development, defaults)
+    development: Object.assign({}, development, defaults),
+    production: Object.assign({}, production, defaults)
 }[process.env.NODE_ENV || 'development'];

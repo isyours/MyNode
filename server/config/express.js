@@ -33,6 +33,8 @@ const env = process.env.NODE_ENV || 'development';
 
 module.exports = function (app, passport) {
 
+    console.log('======= Start mode is ============', env);
+
     mongoose.connect(config.dbStr);
     mongoose.connection.on('error', function() {
         console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
