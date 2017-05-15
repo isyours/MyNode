@@ -5,6 +5,7 @@
  */
 // const mongoose = require('mongoose');
 const { wrap: async } = require('co');
+const innerAsync = require('async');
 const config = require('../config/env/development');
 
 const Blog = require('../../models/blog');
@@ -150,10 +151,10 @@ exports.comments = async(function* (req, res, next) {
 /**
  * Save new blog message
  */
-exports.saveComments = async(function* (req, res, next) {
+exports.saveComments = function (req, res, next) {
     let gender = JSON.parse(req.body.blogInfo);
     console.log("Save new blog ", gender);
-    async.waterfall([
+    innerAsync.waterfall([
         function(callback) {
             console.log('save new blog waterfall', callback);
             if (callback) {
@@ -183,4 +184,4 @@ exports.saveComments = async(function* (req, res, next) {
             }
         }
     ]);
-});
+};
