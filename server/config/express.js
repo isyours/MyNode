@@ -23,6 +23,7 @@ const winston = require('winston');
 const helpers = require('view-helpers');
 const config = require('./env/development');
 const pkg = require('../../package.json');
+var fileUpload = require('express-fileupload');
 
 const env = process.env.NODE_ENV || 'development';
 
@@ -37,6 +38,8 @@ module.exports = function (app, passport) {
         console.info('Error: Could not connect to MongoDB. Did you forget to run `mongod`?'.red);
     });
 
+    app.use(fileUpload());
+
     // Compression middleware (should be placed before express.static)
     app.use(compression({
         threshold: 512
@@ -45,7 +48,7 @@ module.exports = function (app, passport) {
     app.use(express.static('public'));
 
     app.use(cors({
-        origin: ['http://localhost:3000', 'https://reboil-demo.herokuapp.com'],
+        origin: ['http://localhost:3000', 'https://www.gkwen.com/'],
         optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
         credentials: true
     }));
@@ -88,6 +91,8 @@ module.exports = function (app, passport) {
     }));
 
     app.use(bodyParser());
+    app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended: false}));
     // CookieParser should be above session
     app.use(cookieParser());
     app.use(cookieSession({ secret: 'secret' }));

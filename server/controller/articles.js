@@ -114,6 +114,7 @@ exports.search = async(function* (req, res, next) {
  */
 exports.uploadPic = async(function* (req, res) {
     if (!req.files) {
+        console.log('----------No files----------', req);
         return res.status(400).send('No files were uploaded.');
     } else {
         console.log('=========DEBUG==========', req.files.data);

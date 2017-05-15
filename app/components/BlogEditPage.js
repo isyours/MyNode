@@ -15,8 +15,6 @@ class BlogEditPage extends React.Component {
             blogInfo: {
                 blogId: new Date().getTime() + '',
             },
-            uploadFiles: {
-            },
             files: []
         };
 
@@ -46,18 +44,21 @@ class BlogEditPage extends React.Component {
         });
     }
 
-    onDrop(files) {
-        for (let i in files) {
-            if (!this.state.uploadFiles[i]) {
-                this._uploadFile(i, files[i]);
+    onDrop(file) {
+        if (!file || !(file instanceof Array) || file.length == 0) {
+            return;
+        }
+        let uploadFile = file[0];
+        for (let i in this.state.files) {
+            if (this.state.files[i] && (this.state.files[i].name == uploadFile.name)) {
+                return;
             }
         }
-        this.setState({
-            files: files
-        })
+        console.log("update ======", uploadFile);
+        this._uploadFile(uploadFile);
     }
 
-    _uploadFile(index, file) {
+    _uploadFile(file) {
         let fd = new FormData();
         fd.append('fname', file.name);
         fd.append('data', file);
@@ -68,11 +69,10 @@ class BlogEditPage extends React.Component {
             processData: false,
             contentType: false
         }).done(function(data) {
-            console.log("===upload success===", data);
-            let uploadedFiles = this.state.uploadFiles;
-            uploadedFiles[index] = file;
+            this.state.files.push(file);
+            let uploadedFiles = this.state.files;
             this.setState({
-                uploadFiles: uploadedFiles
+                files: uploadedFiles
             });
         }.bind(this));
     }
@@ -129,9 +129,9 @@ class BlogEditPage extends React.Component {
                         <h2>Uploading {this.state.files.length} files...</h2>
                         <div>{this.state.files.map((file) => {
                             let path = "/img/upload/" + file.name;
-                            return (<p>{path}</p>);
+                            return (<p key={file.name}>{path}</p>);
                         })}</div>
-                        <div>{this.state.files.map((file) => <img src={file.preview} style={{height: 200}} />)}</div>
+                        <div>{this.state.files.map((file) => <img  key={file.name} src={file.preview} style={{height: 200, margin: 3}} />)}</div>
                     </div> : null}
                 </div>
                 <BlogMarkdownEditor submitCallback={this.submitCallback}/>

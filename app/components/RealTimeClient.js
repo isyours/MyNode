@@ -9,15 +9,24 @@ class RealTimeClient extends React.Component {
         super(props);
         this.onReceivedVisitorStatus = this.onReceivedVisitorStatus.bind(this);
         this.onReceivedRankStatus = this.onReceivedRankStatus.bind(this);
+        this.state = {
+            currentVisitorNum: 0,
+            totalVisitorNum: 0
+        };
+    }
+
+    componentDidMount() {
         if (window) {
             this.socket = SocketIOClient(window.location.href);
             this.socket.on('currentVisitorNum', this.onReceivedVisitorStatus);
             this.socket.on('totalVisitorRank', this.onReceivedRankStatus);
         }
-        this.state = {
-            currentVisitorNum: 0,
-            totalVisitorNum: 0
-        };
+    }
+
+    componentWillUnmount() {
+        if (this.socket) {
+            this.socket.close();
+        }
     }
 
     onReceivedVisitorStatus(response) {
