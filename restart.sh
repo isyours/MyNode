@@ -1,3 +1,3 @@
 #!/bin/bash
 ps -ef | grep "forever/bin/monitor" | grep -v grep | awk '{print $2}' | xargs kill -9
-forever start -a -l $LOG/forever.log -o $LOG/out.log -e $LOG/err.log server.js
+forever start -a -l $LOG/forever.log -o $LOG/out.log -e $LOG/err.log $BLOG_HOME/server.js
