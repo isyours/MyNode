@@ -1,6 +1,5 @@
 #!/bin/bash
 git pull
 gulp build
-ps -ef | grep "/home/web/myblog/MyNode/node_modules/babel/lib/_babel-node" | grep -v grep | awk '{print $2}' | xargs kill -9
-mv running.log running.log.$(date +%Y%m%d%H)
-/usr/bin/nodejs /home/web/myblog/MyNode/node_modules/babel/lib/_babel-node server.js >> running.log&
+ps -ef | grep "forever/bin/monitor" | grep -v grep | awk '{print $2}' | xargs kill -9
+forever start -l $LOG/forever.log -o $LOG/out.log -e $LOG/err.log server.js
