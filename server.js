@@ -16,19 +16,19 @@ const VisitorInfo = require('./models/totalVisitorCount');
 
 module.exports = app;
 
-const logHome = process.env.LOG || '';
+const logHome = process.env.LOG || '.';
 
 require('winston-daily-rotate-file');
 
 var transport = new winston.transports.DailyRotateFile({
-    filename: logHome + './blog.log',
+    filename: logHome + '/blog.log',
     datePattern: 'yyyy-MM-dd.',
     prepend: true,
     level: process.env.NODE_ENV === 'development' ? 'debug' : 'info'
 });
 
 var errorLog = new winston.transports.DailyRotateFile({
-    filename: logHome + './error.log',
+    filename: logHome + '/error.log',
     datePattern: 'yyyy-MM-dd.',
     prepend: true,
     level: 'error'
