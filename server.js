@@ -16,7 +16,7 @@ const VisitorInfo = require('./models/totalVisitorCount');
 
 module.exports = app;
 
-const logHome = process.env.BLOG_HOME || '';
+const logHome = process.env.LOG || '';
 
 require('winston-daily-rotate-file');
 
