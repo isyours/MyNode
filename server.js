@@ -5,16 +5,44 @@ process.evn = require('dotenv').config();
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
-const logger = require('morgan');
 const mongoose = require('mongoose');
 const passport = require('passport');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const winston = require('winston');
 const app = express();
 
 const VisitorInfo = require('./models/totalVisitorCount');
 
 module.exports = app;
+
+const logHome = process.env.BLOG_HOME || '';
+
+require('winston-daily-rotate-file');
+
+var transport = new winston.transports.DailyRotateFile({
+    filename: logHome + './blog.log',
+    datePattern: 'yyyy-MM-dd.',
+    prepend: true,
+    level: process.env.NODE_ENV === 'development' ? 'debug' : 'info'
+});
+
+var errorLog = new winston.transports.DailyRotateFile({
+    filename: logHome + './error.log',
+    datePattern: 'yyyy-MM-dd.',
+    prepend: true,
+    level: 'error'
+});
+
+global.logger = new (winston.Logger)({
+    transports: [
+        transport
+    ],
+    exceptionHandlers: [
+        errorLog
+    ],
+    exitOnError: false
+});
 
 require('./server/config/passport')(passport);
 require('./server/config/express')(app, passport);
@@ -24,21 +52,20 @@ const http = require('http').Server(app);
 const websocket = require('socket.io')(http);
 
 app.set('port', process.evn.PORT || 3000);
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(fileUpload());
 
 http.listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
+    global.logger.info('Express server listening on port ' + app.get('port'));
 });
 
 let onlineUserCounter = 0;
 
 websocket.on('connection', function(socket) {
     let address = socket.handshake.headers['x-forward-for'];
-    console.log('user connected ', address);
+    global.logger.info('user connected ', address);
     onlineUserCounter++;
     websocket.sockets.emit('currentVisitorNum', onlineUserCounter);
 
@@ -46,7 +73,7 @@ websocket.on('connection', function(socket) {
         .limit(1)
         .exec(function (err, latestVisitMsg) {
             if (err) {
-                console.log('save visit login info fail', err);
+                global.logger.error('save visit login info fail', err);
             }
             let currentTime = new Date();
             if (!latestVisitMsg || !latestVisitMsg[0] || !latestVisitMsg[0].createTime
@@ -59,28 +86,28 @@ websocket.on('connection', function(socket) {
                     detailActions: {}
                 });
                 visitorInfo.save(function(err) {
-                    console.log('save visit login record fail', err);
+                    global.logger.error('save visit login record fail', err);
                 });
             }
         });
 
     VisitorInfo.count({action: 'login'}).exec(function (err, number) {
         if (err) {
-            console.log('save visit count info fail', err);
+            global.logger.error('save visit count info fail', err);
         }
         socket.emit('totalVisitorRank', number);
     });
 
     socket.on('disconnect', function(){
         let address = socket.handshake.headers['x-forward-for'];
-        console.log('user disconnected ', address);
+        global.logger.info('user disconnected ', address);
         onlineUserCounter--;
         websocket.sockets.emit('currentVisitorNum', onlineUserCounter);
         VisitorInfo.find({visitorIp: address}).sort({createTime: 'desc'})
             .limit(1)
             .exec(function (err, latestVisitMsg) {
                 if (err) {
-                    console.log('save visit logout info fail', err);
+                    global.logger.error('save visit logout info fail', err);
                 }
                 let currentTime = new Date();
                 if (!latestVisitMsg || !latestVisitMsg.createTime
@@ -94,7 +121,7 @@ websocket.on('connection', function(socket) {
                     });
                     visitorInfo.save(function(err) {
                         if (err) {
-                            console.log('save logout fail', err);
+                            global.logger.error('save logout fail', err);
                         }
                     });
                 }

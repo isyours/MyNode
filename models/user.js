@@ -178,7 +178,7 @@ UserSchema.statics = {
      */
 
     load: function (options, cb) {
-        console.log("------------------options------------------------------", options);
+        global.logger.info("------------------options------------------------------", options);
         options.select = options.select || 'name username';
         return this.findOne(options.criteria)
             .select(options.select)

@@ -64,7 +64,7 @@ module.exports = {
         try {
             notifier.send('comment', obj, cb);
         } catch (err) {
-            console.log(err);
+            global.logger.error(err);
         }
     }
 };

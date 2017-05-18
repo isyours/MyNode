@@ -68,10 +68,11 @@ module.exports = function (app, passport) {
         if (err.message
             && (~err.message.indexOf('not found')
             || (~err.message.indexOf('Cast to ObjectId failed')))) {
+            global.logger.error("request error", err, req);
             return next();
         }
 
-        console.error(err.stack);
+        global.logger.error(err.stack);
 
         if (err.stack.includes('ValidationError')) {
             res.status(422).render('422', { error: err.stack });
