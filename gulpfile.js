@@ -16,6 +16,7 @@ var watchify = require('watchify');
 var uglify = require('gulp-uglify');
 var streamify = require('gulp-streamify');
 var changed = require('gulp-changed');
+var rename = require("gulp-rename");
 
 var production = process.env.NODE_ENV === 'production';
 
@@ -51,6 +52,14 @@ gulp.task('loading-css', function() {
     return gulp.src([
         'bower_components/nprogress/nprogress.css'
     ]).pipe(changed('public/css'))
+        .pipe(gulp.dest('public/css'));
+});
+
+gulp.task('highlight-css', function() {
+    return gulp.src([
+        'node_modules/highlight.js/styles/darcula.css'
+    ]).pipe(changed('public/css'))
+        .pipe(rename("highlight.css"))
         .pipe(gulp.dest('public/css'));
 });
 
@@ -169,5 +178,5 @@ gulp.task('watch', function() {
     gulp.watch('app/stylesheets/**/*.less', ['styles']);
 });
 
-gulp.task('default', ['styles', 'materialUi', 'vendor', 'loading', 'loading-css', 'browserify-watch', 'watch']);
-gulp.task('build', ['styles', 'materialUi', 'vendor', 'loading', 'loading-css', 'browserify']);
+gulp.task('default', ['styles', 'materialUi', 'vendor', 'loading', 'loading-css', 'highlight-css', 'browserify-watch', 'watch']);
+gulp.task('build', ['styles', 'materialUi', 'vendor', 'loading', 'loading-css', 'highlight-css', 'browserify']);

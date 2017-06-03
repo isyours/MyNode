@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import Codemirror from 'react-codemirror';
+const showdownHighlight = require("showdown-highlight");
 
 
 class BlogMarkdownEditor extends React.Component {
@@ -14,14 +15,20 @@ class BlogMarkdownEditor extends React.Component {
         };
         this._submitCallback = this.props.submitCallback;
         this.updateCode = this.updateCode.bind(this);
-        this.converter =  new showdown.Converter();
+        this.converter =  new showdown.Converter({
+            extensions: [showdownHighlight]
+        });
         this.handleSubmitBtnClick = this.handleSubmitBtnClick.bind(this);
     }
 
     updateCode(newCode) {
+        let rawHtml = this.converter.makeHtml(newCode);
+        let node = $(rawHtml);
+        node.find("code").addClass("hljs");
+        let htmlContent = $("<div />").append(node.clone()).html();
         this.setState({
             markdownText: newCode,
-            htmlContent: this.converter.makeHtml(newCode)
+            htmlContent: htmlContent
         });
     }
 
