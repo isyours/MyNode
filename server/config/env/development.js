@@ -8,7 +8,7 @@ module.exports = {
     dbStr: '127.0.0.1:27017/blogboost',
     db: 'mongodb://127.0.0.1:27017/blogboost',
     root: '',
-    uploadPicPath: process.env.UPLOAD_FILE_PATH ||  'E:\\MyNode\\public\\img\\upload\\'
+    uploadPicPath: process.env.UPLOAD_FILE_PATH ||  'E:\\workspace\\MyNode\\public\\img\\upload\\'
     // facebook: {
     //     clientID: process.env.FACEBOOK_CLIENTID,
     //     clientSecret: process.env.FACEBOOK_SECRET,

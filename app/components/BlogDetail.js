@@ -50,7 +50,7 @@ class BlogDetail extends React.Component {
         let styleInfo = {
             backgroundImage: 'url("' + backgroundUrl + '")',
             backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            backgroundRepeat: 'no-repeat',
+            backgroundRepeat: 'inherit',
             backgroundAttachment: 'fixed',
             zIndex: 1,
         };

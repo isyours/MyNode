@@ -6,6 +6,7 @@ import BlogActions from '../actions/BlogActions';
 import BlogMarkdownEditor from './BlogMarkdownEditor';
 import ChipInput from 'material-ui-chip-input';
 import Dropzone from 'react-dropzone';
+import TextField from 'material-ui/TextField'
 
 class BlogEditPage extends React.Component {
     constructor(props) {
@@ -89,33 +90,59 @@ class BlogEditPage extends React.Component {
         this.state.blogInfo.createTime = currentTime;
         this.state.blogInfo.blogTags = this.state.blogTags;
         BlogActions.addBlog(this.state.blogInfo);
-        document.location.href = "/";
+        // document.location.href = "/";
     }
 
     render() {
         return (
-            <div>
+            <div style={{padding: 10}}>
                 <div>
-                    Name:
-                    <input type="text"  value={this.state.blogInfo.blogName} name="blogName" onChange={this.handleInputChange} />
+                    <TextField
+                        name="blogName"
+                        hintText="博客标题"
+                        floatingLabelText="博客标题，将出现在主页和博客页"
+                        value={this.state.blogInfo.blogName}
+                        onChange={this.handleInputChange}
+                        style={{ width: '100%' }}
+                    />
                 </div>
                 <div>
-                    Url-navigate:
-                    <input type="text"  value={this.state.blogInfo.blogTitle} name="blogTitle" onChange={this.handleInputChange} />
+                    <TextField
+                        name="blogTitle"
+                        hintText="博客路由地址"
+                        floatingLabelText="博客路由地址，导航Url地址"
+                        value={this.state.blogInfo.blogTitle}
+                        onChange={this.handleInputChange}
+                        style={{ width: '100%' }}
+                    />
                 </div>
                 <div>
-                    Brief:
-                    <input type="text" value={this.state.blogInfo.blogBrief} name="blogBrief" onChange={this.handleInputChange}/>
+                    <TextField
+                        name="blogBrief"
+                        hintText="博客内容简介"
+                        floatingLabelText="博客内容简介，会出现在首页"
+                        value={this.state.blogInfo.blogBrief}
+                        onChange={this.handleInputChange}
+                        style={{ width: '100%' }}
+                    />
                 </div>
                 <div>
-                    Pic:
-                    <input type="text"  value={this.state.blogInfo.blogBackground} name="blogBackground" onChange={this.handleInputChange} />
+                    <TextField
+                        name="blogBackground"
+                        hintText="博客主题背景"
+                        floatingLabelText="博客主题背景，填写url"
+                        value={this.state.blogInfo.blogBackground}
+                        onChange={this.handleInputChange}
+                        style={{ width: '100%' }}
+                    />
                 </div>
                 <div>
-                    Tags:
                     <ChipInput
-                        defaultValue={this.state.blogInfo.blogTags}
+                        hintText="博客标签"
+                        floatingLabelText="博客标签，回车填写多个"
+                        value={this.state.blogInfo.blogTags}
                         onChange={(chips) => this.handleTagsChange(chips)}
+                        style={{ width: '100%' }}
                     />
                 </div>
                 <div>

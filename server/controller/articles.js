@@ -53,7 +53,7 @@ exports.create = async(function* (req, res, next) {
     let gender = JSON.parse(req.body.blogInfo);
     global.logger.info("Save new blog ", gender);
 
-    async.waterfall([
+    innerAsync.waterfall([
         function(callback) {
             global.logger.info('save new blog waterfall', callback);
             if (callback) {
@@ -61,7 +61,7 @@ exports.create = async(function* (req, res, next) {
             }
         },
         function(message) {
-            global.logger.info('message:', message);
+            global.logger.info('Save blog start, message:', message);
             try {
                 let currentDate = new Date();
                 let blog = new Blog({
@@ -76,12 +76,18 @@ exports.create = async(function* (req, res, next) {
                     blogBackground: gender.blogBackground,
                     blogMarkdownContent: gender.blogMarkdownContent,
                 });
+                global.logger.info('Try to Save blog, blog info:', blog);
 
                 blog.save(function(err) {
-                    if (err) return next(err);
+                    if (err) {
+                        global.logger.error('Save blog fail:', err);
+                        return next(err);
+                    }
+                    global.logger.info('Save blog success!');
                     res.send({ message: 'create obj success!' + JSON.stringify(blog) });
                 });
             } catch (e) {
+                global.logger.error('Save blog fail:', e);
                 res.status(404).send({ message: 'Save new blog fail' });
             }
         }

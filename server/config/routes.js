@@ -80,7 +80,7 @@ module.exports = function (app, passport) {
         }
 
         // error page
-        res.status(500).render('500', { error: err.stack });
+        // res.status(500).render('500', { error: err.stack });
     });
 
     // assume 404 since no middleware responded
@@ -90,6 +90,6 @@ module.exports = function (app, passport) {
             error: 'Not found'
         };
         if (req.accepts('json')) return res.status(404).json(payload);
-        res.status(404).render('404', payload);
+        // res.status(404).render('404', payload);
     });
 };
