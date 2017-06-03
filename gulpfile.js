@@ -110,7 +110,7 @@ gulp.task('browserify', ['browserify-vendor'], function() {
         .transform(babelify)
         .bundle()
         .pipe(source('bundle.js'))
-        .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
+        // .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
         .pipe(gulp.dest('public/js'));
 });
 
