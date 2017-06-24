@@ -20,9 +20,13 @@ class BlogActions {
     }
 
     addBlog(blog) {
+        let url = '/api/blog';
+        if (blog && blog.blogId && blog.blogTitle) {
+            url += '/' + blog.blogTitle;
+        }
         $.ajax({
             type: 'POST',
-            url: '/api/blog',
+            url: url,
             data: {blogInfo: JSON.stringify(blog)}
         })
             .done((data) => {

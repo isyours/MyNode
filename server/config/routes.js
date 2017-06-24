@@ -49,8 +49,9 @@ module.exports = function (app, passport) {
     app.get('/api/blog/:blogTitle', articles.getBlogByTitle);
     app.get('/api/blog/page/:pageNum', articles.getBlogByPage);
     app.post('/api/blog', articleAuth, articles.create);
+    app.post('/api/blog/:blogTitle', articleAuth, articles.update);
     app.post('/upload', articleAuth, articles.uploadPic);
-    app.get('/edit/blog', articleAuth, function (req, res) {
+    app.get('/edit/blog/:blogTitle*?', articleAuth, function (req, res) {
         res.send(swig.renderFile('views/index.html'));
     });
     app.get('/api/blog/:blogId/message', articles.comments);

@@ -94,6 +94,46 @@ exports.create = async(function* (req, res, next) {
     ]);
 });
 
+exports.update = async(function* (req, res, next) {
+    let gender = JSON.parse(req.body.blogInfo);
+    global.logger.info("Update blog ", gender);
+    innerAsync.waterfall([
+        function(callback) {
+            global.logger.info('Update blog waterfall', callback);
+            if (callback) {
+                callback(null, 'this from upstairs, update blog');
+            }
+        },
+        function(message) {
+            global.logger.info('Update blog start, message:', message);
+            try {
+                let currentDate = new Date();
+
+                Blog.findOneAndUpdate({'blogId': gender.blogId}, {$set: {
+                    blogTitle: gender.blogTitle,
+                    blogName: gender.blogName,
+                    blogContent: gender.blogContent,
+                    updateTime: currentDate,
+                    blogTags: gender.blogTags,
+                    blogBrief: gender.blogBrief,
+                    blogBackground: gender.blogBackground,
+                    blogMarkdownContent: gender.blogMarkdownContent,
+                }}, {upsert:true}, function(err) {
+                    if (err) {
+                        global.logger.error('Update blog fail:', err);
+                        return next(err);
+                    }
+                    global.logger.info('Update blog success!');
+                    res.send({ message: 'update obj success!' + JSON.stringify(gender) });
+                });
+            } catch (e) {
+                global.logger.error('Save blog fail:', e);
+                res.status(404).send({ message: 'Save new blog fail' });
+            }
+        }
+    ]);
+});
+
 exports.search = async(function* (req, res, next) {
     let query = decodeURI(req.params.query) + '';
     global.logger.info('查询关键字', query);

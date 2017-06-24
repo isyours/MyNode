@@ -3,18 +3,25 @@
  */
 import React from 'react';
 import BlogActions from '../actions/BlogActions';
+import BlogStore from '../stores/BlogStore';
 import BlogMarkdownEditor from './BlogMarkdownEditor';
 import ChipInput from 'material-ui-chip-input';
 import Dropzone from 'react-dropzone';
-import TextField from 'material-ui/TextField'
+import TextField from 'material-ui/TextField';
+
 
 class BlogEditPage extends React.Component {
     constructor(props) {
         super(props);
 
+        if (this.props.params.blogTitle) {
+            BlogActions.getBlogByTitle(this.props.params.blogTitle);
+        }
+
         this.state = {
             blogInfo: {
-                blogId: new Date().getTime() + '',
+                blogMarkdownContent: '',
+                blogContent: ''
             },
             files: []
         };
@@ -25,6 +32,19 @@ class BlogEditPage extends React.Component {
         this.onDrop = this.onDrop.bind(this);
         this.onOpenClick = this.onOpenClick.bind(this);
         this._uploadFile = this._uploadFile.bind(this);
+        this.onChange = this.onChange.bind(this);
+    }
+
+    componentDidMount() {
+        BlogStore.listen(this.onChange);
+    }
+
+    componentWillUnmount() {
+        BlogStore.unlisten(this.onChange);
+    }
+
+    onChange(state) {
+        this.setState(state);
     }
 
     handleInputChange(event) {
@@ -55,7 +75,6 @@ class BlogEditPage extends React.Component {
                 return;
             }
         }
-        console.log("update ======", uploadFile);
         this._uploadFile(uploadFile);
     }
 
@@ -161,7 +180,9 @@ class BlogEditPage extends React.Component {
                         <div>{this.state.files.map((file) => <img  key={file.name} src={file.preview} style={{height: 200, margin: 3}} />)}</div>
                     </div> : null}
                 </div>
-                <BlogMarkdownEditor submitCallback={this.submitCallback}/>
+                <BlogMarkdownEditor  submitCallback={this.submitCallback}
+                                     markdownText={this.state.blogInfo.blogMarkdownContent}
+                                     htmlContent={this.state.blogInfo.blogContent}/>
             </div>
         );
     }

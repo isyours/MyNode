@@ -10,8 +10,8 @@ class BlogMarkdownEditor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            markdownText: '',
-            htmlContent: ''
+            markdownText: this.props.markdownText,
+            htmlContent: this.props.htmlContent
         };
         this._submitCallback = this.props.submitCallback;
         this.updateCode = this.updateCode.bind(this);
@@ -19,6 +19,15 @@ class BlogMarkdownEditor extends React.Component {
             extensions: [showdownHighlight]
         });
         this.handleSubmitBtnClick = this.handleSubmitBtnClick.bind(this);
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.markdownText !== this.state.markdownText) {
+            this.setState({ markdownText: nextProps.markdownText });
+        }
+        if (nextProps.htmlContent !== this.state.htmlContent) {
+            this.setState({ htmlContent: nextProps.htmlContent });
+        }
     }
 
     updateCode(newCode) {

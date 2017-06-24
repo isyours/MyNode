@@ -62,11 +62,13 @@ class BlogDetail extends React.Component {
             verticalAlign: 'baseline',
             background: '0 0',
             fontSize: 40,
-            color: '#79829a',
+            // color: '#79829a',
+            color: 'black',
             textAlign: "center"
         };
         let contentStyle = {
-            color: '#79829a'
+            // color: '#79829a'
+            color: 'black'
         };
 
         return (
@@ -97,13 +99,13 @@ class BlogDetail extends React.Component {
                                 <BlogTag blogTags={this.state.blogInfo && this.state.blogInfo.blogTags ?
                                     this.state.blogInfo.blogTags: []} />
                                 <Divider style={{
-                                    backgroundColor: '#d5ecd2',
+                                    backgroundColor: '#2b2b2b',
                                     marginTop: 15
                                 }}/>
                                 <div style={contentStyle}
                                      dangerouslySetInnerHTML={{__html: this.state.blogInfo.blogContent}}></div>
                                 <Divider style={{
-                                    backgroundColor: 'rgb(100, 220, 224)',
+                                    backgroundColor: '#2b2b2b',
                                     marginTop: 15
                                 }}/>
                                 <div className="container">
