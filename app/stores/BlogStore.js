@@ -12,11 +12,18 @@ class BlogStore {
     onAddBlogSuccess(successMessage) {
         this.nameValidationState = 'has-success';
         this.helpBlock = successMessage;
+        this.setState({
+            saveBlogSuccess: true
+        });
     }
 
     onAddBlogFail(errorMessage) {
         this.nameValidationState = 'has-error';
         this.helpBlock = errorMessage;
+        this.setState({
+            saveBlogSuccess: false,
+            errorMsg: errorMessage
+        });
     }
 
     onGetBlogSuccess(response) {

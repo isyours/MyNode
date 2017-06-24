@@ -115,6 +115,8 @@ class BlogEditPage extends React.Component {
     render() {
         return (
             <div style={{padding: 10}}>
+                <h1>当前保存状态：{this.state.saveBlogSuccess?"成功":
+                    this.state.errorMsg? "失败:" + this.state.errorMsg:"更新未保存"}</h1>
                 <div>
                     <TextField
                         name="blogName"
