@@ -18,26 +18,38 @@ var streamify = require('gulp-streamify');
 var changed = require('gulp-changed');
 var rename = require("gulp-rename");
 
-var production = process.env.NODE_ENV === 'production';
+// var production = process.env.NODE_ENV === 'production';
+var production = true;
 
 var dependencies = [
-    'alt',
-    'react',
-    'react-dom',
-    'react-router',
-    'react-pubsub',
-    'react-tap-event-plugin',
-    'material-ui',
-    'react-infinite-scroller',
-    'react-addons-create-fragment',
-    'react-addons-transition-group',
-    'react-addons-shallow-compare',
-    'underscore',
-    'draft-js',
-    'react-codemirror',
-    'material-ui-chip-input',
-    'react-dropzone',
-    'react-intl'
+    "alt",
+    "react",
+    "react-addons-shallow-compare",
+    "react-codemirror",
+    "react-custom-scrollbars",
+    "react-dom",
+    "react-dropzone",
+    "react-headroom",
+    "react-infinite-scroller",
+    "react-intl",
+    "react-material-tags",
+    "react-pubsub",
+    "react-router",
+    "react-sticky",
+    "react-tap-event-plugin",
+    "codemirror",
+    "draft-js",
+    "draft-js-export-html",
+    "formsy-material-ui",
+    "formsy-react",
+    "highlight.js",
+    "material-ui",
+    "material-ui-chip-input",
+    "socket.io-client"
+];
+
+var noCompressDependencies = [
+    "showdown-highlight"
 ];
 
 gulp.task('loading', function() {
@@ -81,7 +93,7 @@ gulp.task('vendor', function() {
         'bower_components/PubSubJS/src/pubsub.js',
         'bower_components/showdown/dist/showdown.min.js'
     ]).pipe(concat('vendor.js'))
-        .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
+        .pipe(gulpif(production, streamify(uglify())))
         .pipe(gulp.dest('public/js'));
 });
 
@@ -95,7 +107,15 @@ gulp.task('browserify-vendor', function() {
         .require(dependencies)
         .bundle()
         .pipe(source('vendor.bundle.js'))
-        .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
+        .pipe(gulpif(production, streamify(uglify())))
+        .pipe(gulp.dest('public/js'));
+});
+
+gulp.task('browserify-vendor-no-compress', function() {
+    return browserify()
+        .require(noCompressDependencies)
+        .bundle()
+        .pipe(source('vendor.bundle.no-compress.js'))
         .pipe(gulp.dest('public/js'));
 });
 
@@ -104,13 +124,14 @@ gulp.task('browserify-vendor', function() {
  | Compile only project files, excluding all third-party dependencies.
  |--------------------------------------------------------------------------
  */
-gulp.task('browserify', ['browserify-vendor'], function() {
+gulp.task('browserify', ['browserify-vendor', 'browserify-vendor-no-compress'], function() {
+    var externalList = dependencies.concat(noCompressDependencies);
     return browserify('app/main.js')
-        .external(dependencies)
+        .external(externalList)
         .transform(babelify)
         .bundle()
         .pipe(source('bundle.js'))
-        // .pipe(gulpif(production, streamify(uglify({ mangle: false }))))
+        .pipe(gulpif(production, streamify(uglify())))
         .pipe(gulp.dest('public/js'));
 });
 
@@ -119,9 +140,10 @@ gulp.task('browserify', ['browserify-vendor'], function() {
  | Same as browserify task, but will also watch for changes and re-compile.
  |--------------------------------------------------------------------------
  */
-gulp.task('browserify-watch', ['browserify-vendor'], function() {
+gulp.task('browserify-watch', ['browserify-vendor', 'browserify-vendor-no-compress'], function() {
+    var externalList = dependencies.concat(noCompressDependencies);
     var bundler = watchify(browserify('app/main.js', watchify.args));
-    bundler.external(dependencies);
+    bundler.external(externalList);
     bundler.transform(babelify);
     bundler.on('update', rebundle);
     return rebundle();

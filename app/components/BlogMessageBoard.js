@@ -11,8 +11,7 @@ import {FormattedDate} from 'react-intl';
 import InfoLoading from './InfoLoading';
 import RaisedButton from 'material-ui/RaisedButton';
 import Formsy from 'formsy-react';
-import { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup,
-    FormsySelect, FormsyText, FormsyTime, FormsyToggle, FormsyAutoComplete } from 'formsy-material-ui/lib';
+import { FormsyText } from 'formsy-material-ui/lib';
 
 class BlogMessageBoard extends React.Component {
     constructor(props) {
