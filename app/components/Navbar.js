@@ -1,6 +1,6 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-import { Link } from 'react-router';
+// import { Link } from 'react-router';
 import {lightBlue500, grey200, black, white} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';

@@ -6,6 +6,8 @@ import BlogStore from '../stores/BlogStore';
 import Navbar from './Navbar';
 import BlogTag from './BlogTag';
 import BlogMessageBoard from './BlogMessageBoard';
+import BlogAnchor from './BlogAnchor';
+import { StickyContainer, Sticky } from 'react-sticky';
 
 
 class BlogDetail extends React.Component {
@@ -84,38 +86,62 @@ class BlogDetail extends React.Component {
                 >
                     <Navbar type='light' />
                 </Headroom>
-                {
-                    this.state.blogInfo && this.state.blogInfo.blogId ?
-                        <div style={styleInfo}>
-                            <article className="container" style={{
-                                backgroundColor: 'rgba(211, 237, 208, 0.9)',
-                                height: '100%',
-                                padding: '20px 50px 15px',
-                                position: 'relative',
-                                fontSize: 18,
-                                zIndex: 996
-                            }}>
-                                <div style={headerStyle}><h1>{this.state.blogInfo.blogName}</h1></div>
-                                <BlogTag blogTags={this.state.blogInfo && this.state.blogInfo.blogTags ?
-                                    this.state.blogInfo.blogTags: []} />
-                                <Divider style={{
-                                    backgroundColor: '#2b2b2b',
-                                    marginTop: 15
-                                }}/>
-                                <div style={contentStyle}
-                                     dangerouslySetInnerHTML={{__html: this.state.blogInfo.blogContent}}></div>
-                                <Divider style={{
-                                    backgroundColor: '#2b2b2b',
-                                    marginTop: 15
-                                }}/>
-                                <div className="container">
-                                    <BlogMessageBoard blogId={this.state.blogInfo.blogId} />
-                                </div>
-                            </article>
-                        </div>
-                        :
-                        <div>未找到当前博客内容</div>
-                }
+                <StickyContainer>
+                    <div style={{
+                            position: "absolute",
+                            height: "100%",
+                            width: "260px",
+                            marginTop: "1em",
+                            marginRight: "2em",
+                            right: 0
+                         }}>
+
+                            <Sticky disableCompensation
+                                    topOffset={80}
+                                    style={{
+                                        minHeight: "200px",
+                                        width: "260px",
+                                        backgroundColor: "rgba(211, 237, 208, 0.9)",
+                                        boxShadow: "1px 1px 1px rgba(0,0,0,0.25)",
+                                        marginTop: "1em"
+                                    }}>
+                                <BlogAnchor blogInfo={this.state.blogInfo}/>
+                            </Sticky>
+
+                    </div>
+                    {
+                        this.state.blogInfo && this.state.blogInfo.blogId ?
+                            <div style={styleInfo}>
+                                <article className="container" style={{
+                                    backgroundColor: 'rgba(211, 237, 208, 0.9)',
+                                    height: '100%',
+                                    padding: '20px 50px 15px',
+                                    position: 'relative',
+                                    fontSize: 18,
+                                    zIndex: 996
+                                }}>
+                                    <div style={headerStyle}><h1>{this.state.blogInfo.blogName}</h1></div>
+                                    <BlogTag blogTags={this.state.blogInfo && this.state.blogInfo.blogTags ?
+                                        this.state.blogInfo.blogTags: []} />
+                                    <Divider style={{
+                                        backgroundColor: '#2b2b2b',
+                                        marginTop: 15
+                                    }}/>
+                                    <div style={contentStyle}
+                                         dangerouslySetInnerHTML={{__html: this.state.blogInfo.blogContent}}></div>
+                                    <Divider style={{
+                                        backgroundColor: '#2b2b2b',
+                                        marginTop: 15
+                                    }}/>
+                                    <div className="container">
+                                        <BlogMessageBoard blogId={this.state.blogInfo.blogId} />
+                                    </div>
+                                </article>
+                            </div>
+                            :
+                            <div style={{padding: 10}}>未找到当前博客内容</div>
+                    }
+                </StickyContainer>
             </div>
         );
     }

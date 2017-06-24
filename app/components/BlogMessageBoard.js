@@ -157,7 +157,6 @@ class BlogMessageBoard extends React.Component {
         return (
             <div style={{padding: 10}}>
                 <div style={{marginTop: 10, padding: 10}}>
-                    <h1>留言</h1>
                     {this.renderMessageList()}
                 </div>
                 <div id="_message_board" style={loadingStyle}>

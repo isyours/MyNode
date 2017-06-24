@@ -38,7 +38,6 @@ class BlogSearchBar extends React.Component {
     }
 
     onAutoCompleteClose() {
-        console.log('list is ', this.state.blogList);
         if (this.state && this.state.blogList && this.state.blogList.length === 1) {
             window.location.href = '/blog/' + this.state.blogList[0].blogTitle;
         }

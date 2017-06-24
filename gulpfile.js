@@ -18,8 +18,7 @@ var streamify = require('gulp-streamify');
 var changed = require('gulp-changed');
 var rename = require("gulp-rename");
 
-// var production = process.env.NODE_ENV === 'production';
-var production = true;
+var production = process.env.NODE_ENV === 'production';
 
 var dependencies = [
     "alt",
@@ -45,7 +44,8 @@ var dependencies = [
     "highlight.js",
     "material-ui",
     "material-ui-chip-input",
-    "socket.io-client"
+    "socket.io-client",
+    "react-sticky"
 ];
 
 var noCompressDependencies = [
