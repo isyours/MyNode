@@ -119,7 +119,7 @@ class BlogAnchor extends React.Component {
                 <div style={navTriggerStyle}>
                     <FontIcon className="material-icons" onClick={this.handleTriggerClick}
                               title={this.state.isToggleOn?"隐藏导航栏":"展示导航栏"}
-                              style={{top: "0.7em", color: "white", position: "absolute", cursor: "pointer"}}>
+                              style={{paddingTop: "0.6em", color: "white", position: "absolute", cursor: "pointer"}}>
                         {this.state.isToggleOn? "toc":"view_headline"}
                     </FontIcon>
                     <p style={navTitleStyle}>文内导航</p>
