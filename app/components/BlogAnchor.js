@@ -7,9 +7,11 @@ class BlogAnchor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            blogInfo: this.props.blogInfo
+            blogInfo: this.props.blogInfo,
+            isToggleOn: true
         };
         this.getAnchorLinkItem = this.getAnchorLinkItem.bind(this);
+        this.handleTriggerClick = this.handleTriggerClick.bind(this);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -24,6 +26,12 @@ class BlogAnchor extends React.Component {
         return (
             <li className={classNameStr}><a href={hrefLink}>{item['textContent']}</a></li>
         );
+    }
+
+    handleTriggerClick() {
+        this.setState(prevState => ({
+            isToggleOn: !prevState.isToggleOn
+        }));
     }
 
     renderAnchorLink(htmlContent) {
@@ -69,19 +77,54 @@ class BlogAnchor extends React.Component {
             resultArr.push(this.getAnchorLinkItem(baseUrl, item));
         });
 
+        let navStyle = {
+            listStyle: "none", paddingLeft: "1em"
+        };
+
+        let anchorStyle = {
+            backgroundColor: "rgba(211, 237, 208, 0.9)",
+            boxShadow: "1px 1px 1px rgba(0,0,0,0.25)",
+            marginTop: "1em"
+        };
+
+        let navTriggerStyle = {
+            paddingLeft: "0.6em",
+            paddingTop: "0.1em",
+            paddingBottom: "0.1em",
+            background: "rgb(3, 169, 244)",
+            color: "white",
+            fontWeight: 200
+        };
+
+        let navTitleStyle = {
+            marginLeft: "2em"
+        };
+
+        if (!this.state.isToggleOn) {
+            navStyle['display'] = "none";
+            navTitleStyle['display'] = "none";
+            anchorStyle['minHeight'] = '55px';
+            anchorStyle['width'] = '45px';
+            anchorStyle['backgroundColor'] = 'rgb(3, 169, 244)';
+        } else {
+            navStyle['display'] = "block";
+            navTitleStyle['display'] = "block";
+            anchorStyle['minHeight'] = '200px';
+            anchorStyle['width'] = '260px';
+            anchorStyle['backgroundColor'] = "rgba(211, 237, 208, 0.9)";
+        }
+
         return (
-            <div>
-                <div style={{paddingLeft: "0.6em",
-                             paddingTop: "0.1em",
-                             paddingBottom: "0.1em",
-                             background: "rgb(3, 169, 244)",
-                             color: "white",
-                             fontWeight: 200}}>
-                    <FontIcon className="material-icons"
-                              style={{top: "0.7em", color: "white", position: "absolute"}}>label_outline</FontIcon>
-                    <p style={{marginLeft: "2em"}}>文内导航</p>
+            <div style={anchorStyle}>
+                <div style={navTriggerStyle}>
+                    <FontIcon className="material-icons" onClick={this.handleTriggerClick}
+                              title={this.state.isToggleOn?"隐藏导航栏":"展示导航栏"}
+                              style={{top: "0.7em", color: "white", position: "absolute", cursor: "pointer"}}>
+                        {this.state.isToggleOn? "toc":"view_headline"}
+                    </FontIcon>
+                    <p style={navTitleStyle}>文内导航</p>
                 </div>
-                <ul style={{listStyle: "none", paddingLeft: "1em"}}>
+                <ul style={navStyle}>
                     {
                         resultArr.map((item) => { return item })
                     }

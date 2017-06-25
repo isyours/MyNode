@@ -89,22 +89,16 @@ class BlogDetail extends React.Component {
                 <StickyContainer>
                     <div style={{
                             position: "absolute",
-                            height: "100%",
+                            height: "0",
                             width: "260px",
                             marginTop: "1em",
                             marginRight: "2em",
-                            right: 0
+                            right: 0,
+                            zIndex: 997
                          }}>
 
                             <Sticky disableCompensation
-                                    topOffset={80}
-                                    style={{
-                                        minHeight: "200px",
-                                        width: "260px",
-                                        backgroundColor: "rgba(211, 237, 208, 0.9)",
-                                        boxShadow: "1px 1px 1px rgba(0,0,0,0.25)",
-                                        marginTop: "1em"
-                                    }}>
+                                    topOffset={80}>
                                 <BlogAnchor blogInfo={this.state.blogInfo}/>
                             </Sticky>
 
