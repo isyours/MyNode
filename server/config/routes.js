@@ -7,6 +7,7 @@
 const users = require('../controller/users');
 const articles = require('../controller/articles');
 const auth = require('../middlewares/authorization');
+const seo = require('../controller/seo');
 const swig  = require('swig');
 
 /**
@@ -27,15 +28,13 @@ const fail = {
 module.exports = function (app, passport) {
     const pauth = passport.authenticate.bind(passport);
 
-    app.get('/', function (req, res) {
-        res.send(swig.renderFile('views/index.html'));
-    });
+    app.get('/', seo.renderWithArticlesBrafeList);
 
     // user routes
     app.get('/login', users.login);
-    app.get('/signup', users.signup);
-    app.get('/logout', users.logout);
-    app.post('/users', users.create);
+    // app.get('/signup', users.signup);
+    // app.get('/logout', users.logout);
+    // app.post('/users', users.create);
     app.post('/users/session',
         pauth('local', {
             failureRedirect: '/login',
@@ -52,13 +51,19 @@ module.exports = function (app, passport) {
     app.post('/api/blog/:blogTitle', articleAuth, articles.update);
     app.post('/upload', articleAuth, articles.uploadPic);
     app.get('/edit/blog/:blogTitle*?', articleAuth, function (req, res) {
-        res.send(swig.renderFile('views/index.html'));
+        res.send(swig.renderFile('views/index.html', {
+            pagename: "",
+            articles: []
+        }));
     });
     app.get('/api/blog/:blogId/message', articles.comments);
     app.get('/api/blog/search/:query', articles.search);
     app.post('/api/blog-message', articles.saveComments);
     app.get('/blog/:slug', function (req, res) {
-        res.send(swig.renderFile('views/index.html'));
+        res.send(swig.renderFile('views/index.html', {
+            pagename: "",
+            articles: []
+        }));
     });
 
     /**

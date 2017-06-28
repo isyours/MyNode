@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/css/nprogress.css"/>
     <link rel="stylesheet" href="/css/main.css"/>
     <link rel="stylesheet" href="/css/highlight.css"/>
-    <script src="/js/loading.js"></script>
     <style>
         @font-face {
             font-family: 'Material Icons';
@@ -40,30 +39,25 @@
     </style>
 </head>
 <body>
-<script>
-    NProgress.start();
-</script>
-<div id="loading-area" style="float: left; margin-left: auto; margin-right: auto; width: 100%;
-    height: 100%; background: #000; text-align: center; margin-top: 3px; margin-bottom: 50px; padding: 20px;">
-    <img src="/img/loading.gif">
+<div class="seo_area">
+    <h1>{{ pagename|title }}</h1>
+    <ul>
+        {% for article in articles %}
+        <li>
+        <a href="{{ article.link }}">{{ article.content }}</a>
+        </li>
+        {% endfor %}
+    </ul>
 </div>
 <div id="app">{{ html|safe }}</div>
-<script>
-    NProgress.inc(0.3);
-</script>
 <script src="/js/vendor.js?v=20170626"></script>
-<script>
-    NProgress.inc(0.3);
-</script>
 <script src="/js/vendor.bundle.js?v=20170626"></script>
 <script src="/js/vendor.bundle.no-compress.js?v=20170626"></script>
-<script>
-    NProgress.inc(0.3);
-</script>
 <script src="/js/bundle.js?v=20170626"></script>
-<script>
-    $("#loading-area").hide();
-    NProgress.done();
+<script type="application/javascript">
+    $(function () {
+        $(".seo_area").hide();
+    });
 </script>
 </body>
 </html>

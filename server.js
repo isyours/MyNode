@@ -44,6 +44,8 @@ global.logger = new (winston.Logger)({
     exitOnError: false
 });
 
+global.env = process.env || [];
+
 require('./server/config/passport')(passport);
 require('./server/config/express')(app, passport);
 require('./server/config/routes')(app, passport);
