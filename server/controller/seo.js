@@ -13,7 +13,7 @@ exports.renderWithArticlesBrafeList = async(function* (req, res, next) {
         if (blogList) {
             blogList.map(function (item) {
                 list.push({
-                    link: url + '/blog' + item.blogTitle,
+                    link: url + 'blog/' + item.blogTitle,
                     content: item.blogBrief
                 });
             });

@@ -151,11 +151,11 @@ class BlogMessageBoard extends React.Component {
             zIndex: 999,
             opacity: 0.9,
             paddingTop: 100,
-            paddingLeft: '30%',
+            // paddingLeft: '30%',
             borderRadius: '20'
         };
         return (
-            <div style={{padding: 10}}>
+            <div style={{paddingRight: 25}}>
                 <div style={{marginTop: 10, padding: 10}}>
                     {this.renderMessageList()}
                 </div>

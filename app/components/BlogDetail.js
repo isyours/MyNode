@@ -109,9 +109,9 @@ class BlogDetail extends React.Component {
                                 <article className="container" style={{
                                     backgroundColor: 'rgba(211, 237, 208, 0.9)',
                                     height: '100%',
-                                    padding: '20px 50px 15px',
+                                    paddingTop: '50px',
                                     position: 'relative',
-                                    fontSize: 18,
+                                    // fontSize: 18,
                                     zIndex: 996
                                 }}>
                                     <div style={headerStyle}><h1>{this.state.blogInfo.blogName}</h1></div>
