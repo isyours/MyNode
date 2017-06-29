@@ -1,6 +1,5 @@
 import React from 'react';
 import AppBar from 'material-ui/AppBar';
-// import { Link } from 'react-router';
 import {lightBlue500, grey200, black, white} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
@@ -89,8 +88,6 @@ class Navbar extends React.Component {
     buttonClickAction(url) {
         if (url === 'blog-btn') {
             window.location.href = '/';
-        } else {
-            console.log('current user click ', url);
         }
     }
 

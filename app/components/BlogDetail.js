@@ -106,8 +106,10 @@ class BlogDetail extends React.Component {
                     {
                         this.state.blogInfo && this.state.blogInfo.blogId ?
                             <div style={styleInfo}>
+                                <div style={{
+                                    backgroundColor: 'rgba(211, 237, 208, 0.8)',
+                                    }}>
                                 <article className="container" style={{
-                                    backgroundColor: 'rgba(211, 237, 208, 0.9)',
                                     height: '100%',
                                     paddingTop: '50px',
                                     position: 'relative',
@@ -131,6 +133,7 @@ class BlogDetail extends React.Component {
                                         <BlogMessageBoard blogId={this.state.blogInfo.blogId} />
                                     </div>
                                 </article>
+                                </div>
                             </div>
                             :
                             <div style={{padding: 10}}>未找到当前博客内容</div>

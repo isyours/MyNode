@@ -7,7 +7,7 @@ exports.renderWithArticlesBrafeList = async(function* (req, res, next) {
         global.logger.info('Render Seo Blog list, Error info', err);
         if (err) return next(err);
         global.logger.info('Render Seo Blog list success');
-        let pageName = "Gkwen 玉鲲";
+        let pageName = "Gkwen 玉鲲 内容与摘要";
         let url = global.env.SERVER_URI || "https://www.gkwen.com/";
         let list = [];
         if (blogList) {
