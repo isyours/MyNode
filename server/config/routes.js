@@ -59,12 +59,7 @@ module.exports = function (app, passport) {
     app.get('/api/blog/:blogId/message', articles.comments);
     app.get('/api/blog/search/:query', articles.search);
     app.post('/api/blog-message', articles.saveComments);
-    app.get('/blog/:slug', function (req, res) {
-        res.send(swig.renderFile('views/index.html', {
-            pagename: "",
-            articles: []
-        }));
-    });
+    app.get('/blog/:slug', seo.renderWithArticleAnchor);
 
     /**
      * Error handling
