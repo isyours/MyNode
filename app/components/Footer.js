@@ -33,7 +33,7 @@ class Footer extends React.Component {
                         <div className='col-sm-5' style={{opacity: 0.54}}>
                             <p>Powered by <strong>React</strong>, <strong>Material-Ui</strong> and <strong>Node.js</strong>.
                                 You may view the <a href='https://github.com/isyours/MyNode'>Source Code</a> behind this project on GitHub.</p>
-                            <p>Reg {yearStr} Chen Haolong.</p>
+                            <p>Powered by <a href="mailto:411150056@qq.com">Chen Haolong</a> & <a href="mailto:411150056@qq.com">411150056@qq.com</a> @{yearStr}.</p>
                         </div>
                     </div>
                 </div>
