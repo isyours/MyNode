@@ -19,8 +19,18 @@ class BlogDetail extends React.Component {
             console.log('blog id not found');
         }
         this.onChange = this.onChange.bind(this);
-        this.state = {
-            blogInfo: {}
+        if (articleInstance) {
+            this.state = {
+                blogInfo: {
+                    blogId: 999999,
+                    blogTitle: articleInstance.title,
+                    blogContent: articleInstance.content
+                }
+            };
+        } else {
+            this.state = {
+                blogInfo: {}
+            };
         }
     }
 

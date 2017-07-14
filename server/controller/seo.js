@@ -13,12 +13,12 @@ exports.renderWithArticlesBrafeList = async(function* (req, res, next) {
         global.logger.info('Render Seo Blog list, Error info', err);
         if (err) return next(err);
         global.logger.info('Render Seo Blog list success');
-        let pageInfo = generatePageInfo("玉鲲的博客", "玉鲲技术博客，专注于web技术与数据分析");
+        let pageInfo = generatePageInfo("玉鲲的博客", "玉鲲想与世界分享技术、美食、宗教与感悟。");
         let list = [];
         if (blogList) {
             blogList.map(function (item) {
                 let link = url + 'blog/' + item.blogTitle;
-                list.push(generateArticle(link, item.blogBrief, item.blogContent, "", item.blogTitle));
+                list.push(generateArticle(link, item.blogBrief, item.blogTitle, "", item.updateTime));
             });
         }
 
@@ -56,7 +56,7 @@ exports.renderWithArticleAnchor = async(function* (req, res, next) {
         //     });
         // });
         let link = url + 'blog/' + obj.blogTitle;
-        renderList.push(generateArticle(link, obj.blogBrief, obj.blogContent, obj.blogContent, obj.blogTitle));
+        renderList.push(generateArticle(link, obj.blogBrief, obj.blogTitle, obj.blogContent, obj.updateTime));
 
         return res.send(swig.renderFile('views/index.html', {
             page: pageInfo,

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="{{ page.description }}"/>
+    <link href="https://www.gkwen.com" hreflang="zh"/>
     <title>{{ page.name }}</title>
     <link rel="stylesheet" href="/css/nprogress.css"/>
     <link rel="stylesheet" href="/css/main.css"/>
@@ -52,13 +53,25 @@
             {% endfor %}
         </ul>
         {% for article in articles %}
-        <div>
-            {{ article.content }}
+        <div id="{{article}}">
+            {{ article.content|safe }}
         </div>
         {% endfor %}
     </div>
 </div>
 <div id="app">{{ html|safe }}</div>
+
+{% for article in articles %}
+{% if loop.first %}
+<script type="application/javascript">
+    const articleInstance = {
+        title: '{{ article.title }}',
+        content: '{{ article.content|e("js") }}'
+    };
+</script>
+{% endif %}
+{% endfor %}
+
 <script src="/js/vendor.js?v=20170626"></script>
 <script src="/js/vendor.bundle.no-compress.js?v=20170626"></script>
 <script src="/js/vendor.bundle.js?v=20170626"></script>
