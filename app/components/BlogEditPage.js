@@ -8,6 +8,8 @@ import BlogMarkdownEditor from './BlogMarkdownEditor';
 import ChipInput from 'material-ui-chip-input';
 import Dropzone from 'react-dropzone';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 
 class BlogEditPage extends React.Component {
@@ -29,6 +31,7 @@ class BlogEditPage extends React.Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.submitCallback = this.submitCallback.bind(this);
         this.handleTagsChange = this.handleTagsChange.bind(this);
+        this.handleBlogTypeChange = this.handleBlogTypeChange.bind(this);
         this.onDrop = this.onDrop.bind(this);
         this.onOpenClick = this.onOpenClick.bind(this);
         this._uploadFile = this._uploadFile.bind(this);
@@ -53,6 +56,14 @@ class BlogEditPage extends React.Component {
         const name = target.name;
 
         this.state.blogInfo[name] = value;
+        let blogInfo = this.state.blogInfo;
+        this.setState({
+            blogInfo: blogInfo
+        });
+    }
+
+    handleBlogTypeChange(event, index, value) {
+        this.state.blogInfo['blogType'] = value;
         let blogInfo = this.state.blogInfo;
         this.setState({
             blogInfo: blogInfo
@@ -127,6 +138,17 @@ class BlogEditPage extends React.Component {
                         style={{ width: '100%' }}
                     />
                 </div>
+                <SelectField
+                    hintText="博客类型"
+                    floatingLabelText="博客类型"
+                    value={this.state.blogInfo.blogType}
+                    onChange={this.handleBlogTypeChange}
+                >
+                    <MenuItem value={1} primaryText="技术分享" />
+                    <MenuItem value={2} primaryText="美食教程" />
+                    <MenuItem value={3} primaryText="宗教领悟" />
+                    <MenuItem value={4} primaryText="生活思考" />
+                </SelectField>
                 <div>
                     <TextField
                         name="blogTitle"

@@ -29,6 +29,10 @@ module.exports = function (app, passport) {
     const pauth = passport.authenticate.bind(passport);
 
     app.get('/', seo.renderWithArticlesBrafeList);
+    app.get('/tech', seo.renderWithArticlesBrafeList);
+    app.get('/food', seo.renderWithArticlesBrafeList);
+    app.get('/religion', seo.renderWithArticlesBrafeList);
+    app.get('/life', seo.renderWithArticlesBrafeList);
 
     // user routes
     app.get('/login', users.login);

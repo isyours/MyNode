@@ -3,6 +3,7 @@ import AppBar from 'material-ui/AppBar';
 import {lightBlue500, grey200, black, white} from 'material-ui/styles/colors';
 import FontIcon from 'material-ui/FontIcon';
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
+import {blogTypeMapping} from './App';
 
 class Navbar extends React.Component {
     constructor(props) {
@@ -85,15 +86,16 @@ class Navbar extends React.Component {
         });
     }
 
-    buttonClickAction(url) {
-        if (url === 'blog-btn') {
-            window.location.href = '/';
+    buttonClickAction(keyWord) {
+        if (blogTypeMapping[keyWord]) {
+            window.location.href = '/' + blogTypeMapping[keyWord].name;
         }
     }
 
     render() {
 
         const blogIcon = <FontIcon className="material-icons" style={this.state.styleConfig.iconStyle}>book</FontIcon>;
+        const menuIcon = <FontIcon className="material-icons" style={this.state.styleConfig.iconStyle}>restaurant_menu</FontIcon>;
         const experimentalIcon = <FontIcon className="material-icons" style={this.state.styleConfig.iconStyle}>build</FontIcon>;
         const aboutMeIcon = <FontIcon className="material-icons" style={this.state.styleConfig.iconStyle}>face</FontIcon>;
 
@@ -107,9 +109,15 @@ class Navbar extends React.Component {
                         <BottomNavigation selectedIndex={this.state.selectedIndex} style={{height: 54,
                             background: this.state.styleConfig.menuBackground}}>
                             <BottomNavigationItem
-                                label="博客散文"
+                                label="技术专栏"
                                 icon={blogIcon}
-                                onTouchTap={() => this.buttonClickAction('blog-btn')}
+                                onTouchTap={() => this.buttonClickAction(blogTypeMapping.tech.name)}
+                                style={this.state.styleConfig.menuItemFontStyle}
+                            />
+                            <BottomNavigationItem
+                                label="玉膳房"
+                                icon={menuIcon}
+                                onTouchTap={() => this.buttonClickAction(blogTypeMapping.food.name)}
                                 style={this.state.styleConfig.menuItemFontStyle}
                             />
                             <BottomNavigationItem

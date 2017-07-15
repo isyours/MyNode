@@ -8,17 +8,13 @@ class HomeActions {
         );
     }
 
-    getBlogList(page) {
-        // qwest.get( '/api/blog/page/' + page, {
-        //     page_size: 10
-        // }, {
-        //     cache: false
-        // }).then(function(xhr, resp) {
-        //     if(resp) {
-        //         this.actions.getBlogListSuccess(data)
-        //     }
-        // });
-        $.ajax({url: '/api/blog/page/' + page + '?size=10'})
+    getBlogList(page, type) {
+        let urlTml = '/api/blog/page/' + page + '?size=10';
+        if (type) {
+            urlTml += '&type=' + type;
+        }
+
+        $.ajax({url: urlTml})
             .done((response) => {
                 this.actions.getBlogListSuccess(response)
             })

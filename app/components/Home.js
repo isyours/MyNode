@@ -5,8 +5,6 @@ import React from 'react';
 import HomeStore from '../stores/HomeStore'
 import HomeActions from '../actions/HomeActions';
 import BlogThumbnail from './BlogThumbnail';
-import {Link} from 'react-router'
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import InfiniteScroll from 'react-infinite-scroller';
 import Navbar from './Navbar';
 import BlogSearchBar from './BlogSearchBar';
@@ -15,6 +13,7 @@ import RealTimeClient from './RealTimeClient';
 import {StickyContainer, Sticky} from 'react-sticky';
 import {lightBlue500} from 'material-ui/styles/colors';
 import BlogStore from '../stores/BlogStore';
+import {blogTypeMapping} from './App';
 
 
 class Home extends React.Component {
@@ -22,6 +21,11 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = HomeStore.getState();
+
+        if (this.props.params.blogType && blogTypeMapping[this.props.params.blogType]) {
+            this.state.loadBlogType = blogTypeMapping[this.props.params.blogType].value;
+        }
+
         this.onChange = this.onChange.bind(this);
         this.onTopChangeHandler = this.onTopChangeHandler.bind(this);
         this.token = null;
@@ -48,7 +52,7 @@ class Home extends React.Component {
     }
 
     loadBlog(page) {
-        HomeActions.getBlogList(page);
+        HomeActions.getBlogList(page, this.state.loadBlogType);
     }
 
     onTopChangeHandler(topic, data) {

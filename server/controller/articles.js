@@ -28,7 +28,14 @@ exports.getBlogByPage = async(function*(req, res, next) {
     global.logger.info('Get Blog list, Page is ', pageNum);
     global.logger.info('Get Blog list, Page size is ', pageSize);
 
-    Blog.find({}).sort({updateTime: 'desc'}).skip(pageNum * pageSize).limit(pageSize).exec(function (err, blogList) {
+    let blogType = req.query.type;
+    let conditions = {};
+    if (blogType) {
+        conditions['blogType'] = blogType;
+    }
+
+    Blog.find(conditions).sort({updateTime: 'desc'}).skip(pageNum * pageSize).limit(pageSize)
+        .exec(function (err, blogList) {
         global.logger.info('Get Blog list, Error info', err);
         if (err) return next(err);
         global.logger.info('Get Blog list, Result info', blogList);
@@ -72,6 +79,7 @@ exports.create = async(function* (req, res, next) {
                     createTime: gender.createTime,
                     updateTime: gender.updateTime,
                     blogTags: gender.blogTags,
+                    blogType: gender.blogType,
                     blogBrief: gender.blogBrief,
                     blogBackground: gender.blogBackground,
                     blogMarkdownContent: gender.blogMarkdownContent,
@@ -116,6 +124,7 @@ exports.update = async(function* (req, res, next) {
                     updateTime: currentDate,
                     blogTags: gender.blogTags,
                     blogBrief: gender.blogBrief,
+                    blogType: gender.blogType,
                     blogBackground: gender.blogBackground,
                     blogMarkdownContent: gender.blogMarkdownContent,
                 }}, {upsert:true}, function(err) {

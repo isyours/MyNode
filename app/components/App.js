@@ -57,3 +57,23 @@ class App extends React.Component {
 }
 
 export default App;
+
+
+export const blogTypeMapping = {
+    tech: {
+        name: 'tech',
+        value: 1
+    },
+    food: {
+        name: 'food',
+        value: 2
+    },
+    religion: {
+        name: 'religion',
+        value: 3
+    },
+    life: {
+        name: 'life',
+        value: 4
+    }
+};

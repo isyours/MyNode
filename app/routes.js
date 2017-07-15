@@ -11,7 +11,7 @@ import BlogEditPage from './components/BlogEditPage';
 
 export default (
         <Route handler={App}>
-            <Route name='mainPage' path='/' handler={Home} />
+            <Route name='mainPage' path='/?:blogType?' handler={Home} />
             <Route name='blogEdit' path='/edit/blog/?:blogTitle?' handler={BlogEditPage}/>
             <Route name='blogDetail' path='/blog/:blogTitle' handler={BlogDetail} />
         </Route>

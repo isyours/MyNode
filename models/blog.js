@@ -1,5 +1,12 @@
 var mongoose = require('mongoose');
 
+global.blogTypeMapping = {
+    tech: 1,
+    food: 2,
+    religion: 3,
+    life: 4
+};
+
 var blogSchema = new mongoose.Schema({
     blogId: {type: String, unique: true},
     blogName: String,
@@ -9,6 +16,7 @@ var blogSchema = new mongoose.Schema({
     blogMarkdownContent: String,
     blogTags: [String],
     blogBackground: String,
+    blogType: Number,
     createTime: Date,
     updateTime: Date
 }, {collection: 'blogs'});
