@@ -5,7 +5,7 @@ import React from 'react';
 import {Link} from 'react-router'
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import BlogTag from './BlogTag';
-import {FormattedDate} from 'react-intl';
+import {FormattedDate, FormattedRelative} from 'react-intl';
 
 
 class BlogThumbnail extends React.Component {
@@ -31,6 +31,25 @@ class BlogThumbnail extends React.Component {
     }
 
     render() {
+        const updateTipsStyle = {
+            color: "gray",
+            fontSize: "small",
+            fontWeight: 200,
+            opacity: 0.6,
+            paddingBottom: "3px"
+        };
+
+        let updateTimeTips;
+        if (this.blogItem.createTime !== this.blogItem.updateTime) {
+            updateTimeTips = (
+                <div style={updateTipsStyle}>
+                    update by <FormattedRelative value={this.blogItem.updateTime}/>
+                </div>
+            );
+        } else {
+            updateTimeTips = (<div></div>);
+        }
+
         return (
             <Link key={this.blogItem.blogId} to='blogDetail' params={{blogTitle: this.blogItem.blogTitle}}  style={{textDecoration: 'none', color: 'black'}}>
             <Card
@@ -42,11 +61,12 @@ class BlogThumbnail extends React.Component {
                 <div>
                     <span style={{float: 'right', paddingRight: 10, fontWeight: 'bold'}}>
                         <FormattedDate
-                            value={this.blogItem.updateTime}
+                            value={this.blogItem.createTime}
                             year='numeric'
-                            month='long'
+                            month='2-digit'
                             day='2-digit'
                         />
+                        { updateTimeTips }
                     </span>
                 </div>
                 <BlogTag blogTags={this.blogItem.blogTags}/>

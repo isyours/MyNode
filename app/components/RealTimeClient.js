@@ -17,7 +17,7 @@ class RealTimeClient extends React.Component {
 
     componentDidMount() {
         if (window) {
-            this.socket = SocketIOClient(window.location.href);
+            this.socket = SocketIOClient(window.location.host);
             this.socket.on('currentVisitorNum', this.onReceivedVisitorStatus);
             this.socket.on('totalVisitorRank', this.onReceivedRankStatus);
         }
