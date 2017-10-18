@@ -21,6 +21,15 @@ exports.getBlogByTitle = async(function* (req, res, next) {
     });
 });
 
+exports.validateProxyIp = async(function* (req, res, next) {
+    let receivedIp = req.connection ? req.connection.remoteAddress + '' : '';
+    let nginxIp = req.headers['x-forwarded-for'];
+    res.send({
+        receivedIp: receivedIp,
+        nginxIp: nginxIp
+    });
+});
+
 exports.getBlogByPage = async(function*(req, res, next) {
     let pageNum = req.params.pageNum - 0;
     let pageSize = req.query.size - 0;
