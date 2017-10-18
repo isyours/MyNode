@@ -22,11 +22,9 @@ exports.getBlogByTitle = async(function* (req, res, next) {
 });
 
 exports.validateProxyIp = async(function* (req, res, next) {
-    let receivedIp = req.connection ? req.connection.remoteAddress + '' : '';
     let nginxIp = req.headers['X-Forward-For'];
     res.send({
         ip: {
-            receivedIp: receivedIp,
             nginxIp: nginxIp
         }
     });
