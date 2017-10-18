@@ -34,8 +34,6 @@ module.exports = function (app, passport) {
     app.get('/religion', seo.renderWithArticlesBrafeList);
     app.get('/life', seo.renderWithArticlesBrafeList);
 
-    app.get('/validate/ip', articles.validateProxyIp);
-
     // user routes
     app.get('/login', users.login);
     // app.get('/signup', users.signup);
