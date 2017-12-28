@@ -217,14 +217,7 @@ exports.saveComments = function (req, res, next) {
     let gender = JSON.parse(req.body.blogInfo);
     global.logger.info("Save new blog ", gender);
     innerAsync.waterfall([
-        function(callback) {
-            global.logger.info('save new blog waterfall', callback);
-            if (callback) {
-                callback(null, 'this from upstairs');
-            }
-        },
         function(message) {
-            global.logger.info('message:', message);
             try {
                 let currentDate = new Date();
                 let blogMessage = new BlogMessage({
