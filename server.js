@@ -1,6 +1,6 @@
 'use strict';
 
-process.evn = require('dotenv').config();
+process.env = require('dotenv').config();
 
 const fs = require('fs');
 const express = require('express');
