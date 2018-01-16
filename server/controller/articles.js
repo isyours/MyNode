@@ -11,6 +11,73 @@ const config = require('../config/env/development');
 const Blog = require('../../models/blog');
 const BlogMessage = require('../../models/blogMessage');
 
+let createNewComment = function (blogItem) {
+    global.git.gist.createComment(encodeURIComponent(blogItem['blogMarkdownContent']) + '',
+        function (err, res) {
+            if (!res) {
+                global.logger.error('Sync Blog fail, error is:', err);
+                return;
+            }
+            blogItem['gitId'] = res['id'];
+            blogItem['gitPath'] = res['url'];
+            Blog.findOneAndUpdate({'blogId': blogItem.blogId}, {$set: {
+                blogTitle: blogItem.blogTitle,
+                blogName: blogItem.blogName,
+                blogContent: blogItem.blogContent,
+                updateTime: new Date(),
+                blogTags: blogItem.blogTags,
+                blogBrief: blogItem.blogBrief,
+                blogBackground: blogItem.blogBackground,
+                blogMarkdownContent: blogItem.blogMarkdownContent,
+                gitId: blogItem.gitId,
+                gitPath: blogItem.gitPath
+            }}, {upsert:true}, function(err) {
+                if (err) {
+                    global.logger.error('Sync blog fail:', err);
+                    return;
+                }
+                global.logger.info('Sync blog success!');
+            });
+        });
+};
+
+let updateComment = function (blogItem) {
+    if (!blogItem || !blogItem['gitId']) {
+        return;
+    }
+    global.git.gist.editComment(blogItem['gitId'], encodeURIComponent(blogItem['blogMarkdownContent']) + '',
+        function (err, res) {
+            if (!res) {
+                global.logger.error('Update Blog comment fail, error is:', err);
+                return;
+            }
+            global.logger.info('Update Blog comment success, res is:', res);
+        });
+};
+
+if (global.git.needSyncGit) {
+    let conditions = {
+        $and: [{ gitId: { $exists: false } },
+              { gitPath: { $exists: false }}]
+
+    };
+    global.logger.info("Sync start!!");
+    Blog.find(conditions).sort({updateTime: 'desc'})
+        .exec(function (err, blogList) {
+            if (err) {
+                global.logger.info('Get UnSynced Blog list, Error info', err);
+                return;
+            }
+            global.logger.info('Get UnSynced Blog list, Result info', blogList);
+            if (blogList) {
+                for (let i=0; i<blogList.length; i++) {
+                    let item = blogList[i];
+                    createNewComment(item);
+                }
+            }
+        });
+}
+
 exports.getBlogByTitle = async(function* (req, res, next) {
     let blogTitle = req.params.blogTitle + '';
     Blog.findOne({blogTitle: blogTitle}, function(err,obj) {
@@ -68,12 +135,6 @@ exports.create = async(function* (req, res, next) {
     global.logger.info("Save new blog ", gender);
 
     innerAsync.waterfall([
-        function(callback) {
-            global.logger.info('save new blog waterfall', callback);
-            if (callback) {
-                callback(null, 'this from upstairs');
-            }
-        },
         function(message) {
             global.logger.info('Save blog start, message:', message);
             try {
@@ -100,6 +161,7 @@ exports.create = async(function* (req, res, next) {
                     }
                     global.logger.info('Save blog success!');
                     res.send({ message: 'create obj success!' + JSON.stringify(blog) });
+                    createNewComment(blog);
                 });
             } catch (e) {
                 global.logger.error('Save blog fail:', e);
@@ -113,12 +175,6 @@ exports.update = async(function* (req, res, next) {
     let gender = JSON.parse(req.body.blogInfo);
     global.logger.info("Update blog ", gender);
     innerAsync.waterfall([
-        function(callback) {
-            global.logger.info('Update blog waterfall', callback);
-            if (callback) {
-                callback(null, 'this from upstairs, update blog');
-            }
-        },
         function(message) {
             global.logger.info('Update blog start, message:', message);
             try {
@@ -134,11 +190,12 @@ exports.update = async(function* (req, res, next) {
                     blogType: gender.blogType,
                     blogBackground: gender.blogBackground,
                     blogMarkdownContent: gender.blogMarkdownContent,
-                }}, {upsert:true}, function(err) {
+                }},  {upsert: true, returnNewDocument: true}, function(err, model) {
                     if (err) {
                         global.logger.error('Update blog fail:', err);
                         return next(err);
                     }
+                    updateComment(model._doc);
                     global.logger.info('Update blog success!');
                     res.send({ message: 'update obj success!' + JSON.stringify(gender) });
                 });

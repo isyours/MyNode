@@ -11,7 +11,6 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const winston = require('winston');
 const app = express();
-const GitHubApi = require('github');
 
 const VisitorInfo = require('./models/totalVisitorCount');
 
@@ -35,6 +34,25 @@ var errorLog = new winston.transports.DailyRotateFile({
     level: 'error'
 });
 
+const GitHub = require('github-api');
+const gitclient = new GitHub({
+    username: process.env.GIT_USERNAME,
+    password: process.env.GIT_PASSWORD
+});
+
+global.git = {
+    needSyncGit: process.env.SYNC_TO_GIT || true,
+    repo: gitclient.getRepo('isyours', 'blogs'),
+    gist: gitclient.getGist(process.env.GIT_GIST_ID || 'd9ed5ce64e2cfa0e908d947e60b54343')
+};
+
+global.git.gist.listComments(function (err, res) {
+    console.log('Error is :', err);
+    for (let i=0; i<res.length; i++) {
+        console.log('Res is :', decodeURIComponent(res[i].body));
+    }
+});
+
 global.logger = new (winston.Logger)({
     transports: [
         transport
@@ -46,29 +64,6 @@ global.logger = new (winston.Logger)({
 });
 
 global.env = process.env || [];
-
-global.githubClient = new GitHubApi({
-    // optional
-    timeout: 5000,
-    host: 'api.github.com', // should be api.github.com for GitHub
-    // pathPrefix: '/api/v3', // for some GHEs; none for GitHub
-    protocol: 'https',
-    port: 443,
-    headers: {
-        'accept': 'application/vnd.github.v3+json'
-    },
-    rejectUnauthorized: true, // default: true
-    family: 6
-});
-
-if (global.githubClient) {
-    // oauth key/secret (to get a token)
-    global.githubClient.authenticate({
-        type: 'oauth',
-        key: process.env.CLIENT_ID,
-        secret: process.env.CLIENT_SECRET
-    })
-}
 
 require('./server/config/passport')(passport);
 require('./server/config/express')(app, passport);

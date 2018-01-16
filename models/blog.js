@@ -17,6 +17,8 @@ var blogSchema = new mongoose.Schema({
     blogTags: [String],
     blogBackground: String,
     blogType: Number,
+    gitId: String,
+    gitPath: String,
     createTime: Date,
     updateTime: Date
 }, {collection: 'blogs'});
