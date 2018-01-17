@@ -1,7 +1,5 @@
 'use strict';
 
-process.env = require('dotenv').config();
-
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
@@ -72,7 +70,7 @@ require('./server/config/routes')(app, passport);
 const http = require('http').Server(app);
 const websocket = require('socket.io')(http);
 
-app.set('port', process.evn.PORT || 3000);
+app.set('port', process.env.PORT || 3000);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
