@@ -46,6 +46,15 @@ class BlogMessageBoard extends React.Component {
         BlogMessageStore.unlisten(this.onChange);
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps && nextProps.blogId) {
+            this.blogId = nextProps.blogId;
+            this.onChange({
+                needUpdate: true
+            })
+        }
+    }
+
     enableButton() {
         this.setState({
             canSubmit: true,

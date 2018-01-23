@@ -15,6 +15,9 @@ class BlogMessageActions {
     }
 
     getBlogMessageByBlogId(blogId) {
+        if (blogId === 999999) {
+            return;
+        }
         if (this.ajaxStatusIsBusy) {
             return;
         }
